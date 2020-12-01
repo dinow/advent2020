@@ -202,4 +202,4 @@ INSERT INTO day_01 (column1) VALUES (1866);
 COMMIT;
 
 
-SELECT a.column1*b.column1 from day_01 a cross join day_01 b where a.column1+b.column1 = 2020;
+SELECT a.column1*b.column1*c.column1 from day_01 a cross join day_01 b cross join day_01 c where a.column1+b.column1+c.column1 = 2020;
