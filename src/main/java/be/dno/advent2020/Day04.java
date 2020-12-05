@@ -29,35 +29,11 @@ public class Day04 implements Day{
 	}
 
 	private double computeLine(String line) {
-		double seatId = 0;
-		double row = 0;
-		double column = 0;
-		double min = 0, max = 127;
-		for (int i = 0; i < 7; i++) {
-			double middle = ((max-min) / 2);
-			if (line.charAt(i) == 'F') {
-				max = min + Math.floor(middle);
-				
-			} else if (line.charAt(i) == 'B') {
-				min += Math.ceil(middle);
-			}
-		}
-		row = min;
-		min = 0;
-		max = 7;
-		for (int i = 7; i < 10; i++) {
-			double middle = ((max-min) / 2);
-			if (line.charAt(i) == 'L') {
-				max = min + Math.floor(middle);
-				
-			} else if (line.charAt(i) == 'R') {
-				min += Math.ceil(middle);
-			}
-		}
-		column = Math.max(min,  max);
-		seatId = (row * 8) + column;
-		System.out.println(line+" -> " + seatId);
-		return seatId;
+		String binLineRow = line.substring(0, 7).replaceAll("F", "0");
+		binLineRow = binLineRow.replaceAll("B", "1");
+		String binLineCol = line.substring(7,10).replaceAll("R", "1");
+		binLineCol = binLineCol.replaceAll("L", "0");
+		return (Integer.parseInt(binLineRow, 2) * 8) + Integer.parseInt(binLineCol, 2);
 	}
 
 }
