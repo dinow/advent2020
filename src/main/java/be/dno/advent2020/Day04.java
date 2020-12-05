@@ -29,11 +29,7 @@ public class Day04 implements Day{
 	}
 
 	private double computeLine(String line) {
-		String binLineRow = line.substring(0, 7).replaceAll("F", "0");
-		binLineRow = binLineRow.replaceAll("B", "1");
-		String binLineCol = line.substring(7,10).replaceAll("R", "1");
-		binLineCol = binLineCol.replaceAll("L", "0");
-		return (Integer.parseInt(binLineRow, 2) * 8) + Integer.parseInt(binLineCol, 2);
+		return Integer.parseInt(line.replaceAll("[FL]", "0").replaceAll("[BR]", "1"), 2);
 	}
 
 }
