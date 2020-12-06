@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
-public class Day04 implements Day{
+public class Day05 implements Day{
 
 	@Override
 	public void run(String fileName) throws IOException {
