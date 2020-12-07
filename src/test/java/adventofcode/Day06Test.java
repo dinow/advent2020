@@ -1,11 +1,5 @@
 package adventofcode;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-
-import org.junit.Test;
-
 import be.dno.advent2020.Day06;
 
 public class Day06Test {
