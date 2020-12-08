@@ -8,9 +8,9 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 
 public class Day08 implements Day {
-	
+
 	private int acc = 0;
-	
+
 	@Override
 	public void run(String fileName) throws IOException {
 		List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
@@ -26,32 +26,50 @@ public class Day08 implements Day {
 			instructions[prev_poiner] = null;
 		}
 		System.out.println("part1 : "+ acc);
-		
+
 		for(int i = 0; i < instructions.length; i++) {
 			instructions[i] = new Day08Instruction(contents.get(i));
 		}
 		pointer = 0;
 		acc = 0;
-		while (pointer < instructions.length && instructions[pointer] != null) {
-			prev_poiner = pointer;
-			if (instructions[pointer].instruction.equals("nop")) {
-				instructions[pointer].instruction = "jmp";
-				if (!doesEndAfter(instructions, pointer)) {
-					instructions[pointer].instruction = "nop";
+
+		boolean endedGracely = false;
+		int instructchangedPos = 0;
+		while (endedGracely == false) {
+			for(int i = instructchangedPos; i < instructions.length; i++) {
+				if (instructions[i].instruction.equals("nop")) {
+					System.out.println("Change instruction ["+instructions[i]+"] to jmp");
+					instructions[i].instruction = "jmp";
+					endedGracely = doesnEndGracely(instructions);
+					if (endedGracely) {
+						System.out.println("part2 : "+ acc);
+						i = instructions.length;
+					} else {
+						//infinite loop
+						instructions[i].instruction = "nop";
+						i = instructions.length;
+						instructchangedPos++;
+					}
+				} else if (instructions[i].instruction.equals("jmp")) {
+					System.out.println("Change instruction ["+instructions[i]+"] to nop");
+					instructions[i].instruction = "nop";
+					endedGracely = doesnEndGracely(instructions);
+					if (endedGracely) {
+						System.out.println("part2 : "+ acc);
+						i = instructions.length;
+					} else {
+						//infinite loop
+						instructions[i].instruction = "jmp";
+						i = instructions.length;
+						instructchangedPos++;
+					}
 				}
 			}
-			if (instructions[pointer].instruction.equals("jmp")) {
-				instructions[pointer].instruction = "nop";
-				if (!doesEndAfter(instructions, pointer)) {
-					instructions[pointer].instruction = "jmp";
-				}
-			}
-			pointer = newPointerPosition(instructions[pointer], pointer, false);
-			instructions[prev_poiner] = null;
+
 		}
-		System.out.println("part2 : "+ acc);
+
 	}
-	
+
 	private int newPointerPosition(Day08Instruction instruction, int pointer, boolean fakeInstruction) {
 		int newPointer = pointer;
 		if (instruction.instruction.equals("nop")) {
@@ -66,20 +84,31 @@ public class Day08 implements Day {
 		}
 		return newPointer;
 	}
-	
-	private boolean doesEndAfter(Day08Instruction[] instructions, int pointer) {
+
+	private boolean doesnEndGracely(Day08Instruction[] instructions) {
 		Day08Instruction[] copy_instructions = Arrays.copyOf(instructions, instructions.length);
-		int newPointer = newPointerPosition(copy_instructions[pointer], pointer, true);
-		if (newPointer >= instructions.length || copy_instructions[newPointer] == null) return false;
-		newPointer = newPointerPosition(copy_instructions[newPointer], newPointer, true);
-		if (newPointer == instructions.length) {
-			System.out.println("instruction found ! -> "+instructions[pointer].toString());
-			return true;
-		} else {
-			return false;
+		int pointer = 0;
+		int prev_poiner;
+		acc = 0;
+		boolean whileCondition = true;
+		boolean endedGracely = false;
+		while (whileCondition) {
+			prev_poiner = pointer;
+			pointer = newPointerPosition(copy_instructions[pointer], pointer, false);
+			copy_instructions[prev_poiner] = null;
+			if (pointer == instructions.length) {
+				whileCondition = false;
+				endedGracely = true;
+				break;
+			}
+			if (copy_instructions[pointer] == null) {
+				whileCondition = false;
+				break;
+			}
 		}
+		return endedGracely;
 	}
 
-	
+
 
 }
