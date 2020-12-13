@@ -2,9 +2,7 @@ package be.dno.advent2020;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import static java.util.Arrays.stream;
 import org.apache.commons.io.IOUtils;

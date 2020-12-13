@@ -1,7 +1,6 @@
 package be.dno.advent2020;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
