@@ -16,7 +16,6 @@ public class Day13 implements Day{
 		int earliestTime = Integer.parseInt(contents.get(0));
 		int minutesToWait = Integer.MAX_VALUE;
 		int choosenBusLine = -1;
-		long earliestTimeStamp = 2;
 		for (String sBusLine : contents.get(1).split(",")){
 			if (sBusLine.equals("x")) continue;
 			int busLine = Integer.parseInt(sBusLine);
