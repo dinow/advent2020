@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
-
+import be.dno.Day;
 public class Day10 implements Day {
 
 	private long[] numbers;

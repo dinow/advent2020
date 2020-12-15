@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
-
+import be.dno.Day;
 public class Day07 implements Day {
 	private static final String MY_BAG = "shiny gold";
 	private final Map<String, Day07Relation> mapContains = new HashMap<>();

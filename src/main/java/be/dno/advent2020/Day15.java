@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
+import be.dno.Day;
 public class Day15 implements Day{
 
    Map<Integer, Map<String, Integer>> memory = new HashMap<>();

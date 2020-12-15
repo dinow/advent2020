@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
-
+import be.dno.Day;
 public class Day06 implements Day{
 
 	@Override

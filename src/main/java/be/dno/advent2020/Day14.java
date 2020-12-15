@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-
+import be.dno.Day;
 public class Day14 implements Day{
 
    Map<Long, String> memory = new HashMap<>();

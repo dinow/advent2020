@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-
+import be.dno.Day;
 public class Day09 implements Day {
 
 	private static int WINDOW_SIZE = 25;

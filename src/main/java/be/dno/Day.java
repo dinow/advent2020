@@ -1,4 +1,4 @@
-package be.dno.advent2020;
+package be.dno;
 
 import java.io.IOException;
 

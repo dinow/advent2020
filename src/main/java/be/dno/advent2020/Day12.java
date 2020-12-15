@@ -6,7 +6,7 @@ import java.awt.Point;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-
+import be.dno.Day;
 public class Day12 implements Day{
 
 	private enum Direction {
