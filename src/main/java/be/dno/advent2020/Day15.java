@@ -7,8 +7,9 @@ import java.util.Map;
 import be.dno.Day;
 public class Day15 implements Day{
 
-   Map<Integer, Map<String, Integer>> memory = new HashMap<>();
-
+   //int[0] -> last -1, int[1] -> last
+   Map<Integer, int[]> memory = new HashMap<>();
+   private static final Integer ZERO = Integer.valueOf(0);
    @Override
    public void run(String fileName) throws IOException {
       long startTime = System.nanoTime();
@@ -27,15 +28,16 @@ public class Day15 implements Day{
       for(String input : fileName.split(",")){
          number = Integer.valueOf(input);
          lastSpoken = number;
-         memory.put(lastSpoken, new HashMap<>());
-         memory.get(lastSpoken).put("LAST", Integer.valueOf(counter));
+         memory.put(lastSpoken, new int[]{-1, counter});
          counter ++;
       }
+      int[] arr;
       while (counter <= maxValue){
-         if (!memory.containsKey(lastSpoken) || !memory.get(lastSpoken).containsKey("LAST-1")){
-            lastSpoken = Integer.valueOf(0);
+         if (!memory.containsKey(lastSpoken) || memory.get(lastSpoken)[0] == -1){
+            lastSpoken = ZERO;
          } else {
-            lastSpoken = memory.get(lastSpoken).get("LAST") - memory.get(lastSpoken).get("LAST-1");
+            arr = memory.get(lastSpoken);
+            lastSpoken = arr[1] - arr[0];
          }
          addNumber(lastSpoken, counter);
          counter++;
@@ -45,11 +47,12 @@ public class Day15 implements Day{
 
    public void addNumber(Integer number, int position){
       if (!memory.containsKey(number)){
-         memory.put(number, new HashMap<>());
-         memory.get(number).put("LAST", Integer.valueOf(position));
+         memory.put(number, new int[]{-1, position});
       } else {
-         memory.get(number).put("LAST-1", memory.get(number).get("LAST"));
-         memory.get(number).put("LAST", Integer.valueOf(position));
+         int[] arr = memory.get(number);
+         arr[0] = memory.get(number)[1];
+         arr[1] = position;
+         memory.put(number, arr);
       }
    }
 }
