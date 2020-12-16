@@ -19,7 +19,7 @@ public class Day16 implements Day{
    private Map<String, int[]> fields = new HashMap<>();
    private Map<String, Integer> fieldsPosition = new HashMap<>();
    private int[] myTicket;
-   private List<int[]> validTickets = new ArrayList<>();
+   private Map<String, int[]> validTickets = new HashMap<>();
 
    @Override
    public void run(String fileName) throws IOException {
@@ -48,34 +48,54 @@ public class Day16 implements Day{
       myTicket = Arrays.stream("71,127,181,179,113,109,79,151,97,107,53,193,73,83,191,101,89,149,103,197".split(",")).mapToInt(Integer::parseInt).toArray();
 
       System.out.println("Part 1 : " + processPart1(fileName));
-      System.out.println("Part 2 : " + processPart2(validTickets.get(0).length));
+      System.out.println("Part 2 : " + processPart2(fileName, myTicket.length));
       long endTime = System.nanoTime();
       long timeElapsed = endTime - startTime;
       System.out.println("Execution time in milliseconds : " + timeElapsed / 1000000);
    }
 
-   public Integer processPart2(int nbFields) {
-      int part2 = 1;
-      //for each fields
-      for(String field : fields.keySet()){
-         int[] boundaries = fields.get(field);
+   public boolean isOneRuleOk(int number){
+      for (int[] boundaries : fields.values()){
+         if (isValueOk(number, boundaries)) return true;
+      }
+      return false;
+   }
 
-         //for each ticket field position
+   public long processPart2(String fileName, int nbFields) throws IOException {
+      long part2 = 1l;
+
+      List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
+      for(String line : contents){
+         boolean allOk = true;
+         for (int value : Arrays.stream(line.split(",")).map(Integer::valueOf).collect(Collectors.toList())){
+            allOk &= isOneRuleOk(value);
+         }
+         if (allOk){
+            if (!validTickets.containsKey(line)) {
+               validTickets.put(line, Arrays.stream(line.split(",")).mapToInt(Integer::parseInt).toArray());
+            }
+         }
+      }
+
+      HashSet<String> okRules = new HashSet<>();
+      while(!fields.isEmpty()){
          for (int i = 0; i < nbFields; i++){
-            boolean allOk = true;
-            //check all tickets, set allOk = false if one of the ticket does not match the boundaries
-            for (int[] values : validTickets){
-               if (!isValueOk(values[i], boundaries)){
-                  allOk = false;
+            okRules.clear();
+            okRules.addAll(fields.keySet());
+            for (int[] ticket : validTickets.values()){
+               for(String field : fields.keySet()){
+                  if(!isValueOk(ticket[i], fields.get(field))){
+                     okRules.remove(field);
+                  }
                }
             }
-            //all tickets are valid for the field at that position
-            if (allOk){
-               System.out.println(field + " -> position " + i);
+            if (okRules.size() == 1){
+               String field = okRules.iterator().next();
                if (field.startsWith("departure")){
                   part2 *= myTicket[i];
                }
-               break;
+               fieldsPosition.put(field, i);
+               fields.remove(field);
             }
          }
       }
@@ -90,22 +110,13 @@ public class Day16 implements Day{
       int part1 = 0;
       List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
       for(String line : contents){
-         //System.out.println(line);
          for (int value : Arrays.stream(line.split(",")).map(Integer::valueOf).collect(Collectors.toList())){
             boolean oneValid = false;
-            boolean oneFalse = false;
             for (int[] boundaries : fields.values()){
-               if (!isValueOk(value, boundaries)) oneFalse = true;
-               if ( isValueOk(value, boundaries)){
-                  oneValid = true;
-                  break;
-               }
+               if ( isValueOk(value, boundaries)) oneValid = true;
             }
             if (!oneValid){
                part1+=value;
-            }
-            if (!oneFalse){
-               validTickets.add(Arrays.stream(line.split(",")).mapToInt(Integer::parseInt).toArray());
             }
          }
       }
