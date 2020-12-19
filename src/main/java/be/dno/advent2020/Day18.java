@@ -5,7 +5,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,12 +13,6 @@ import org.apache.commons.io.IOUtils;
 import be.dno.Day;
 
 public class Day18 implements Day{
-   private static int currentPart = 0;
-
-   private static Pattern innerMostParensRegex = Pattern.compile(
-            //negative lookahead to ensure we find the last (
-            // and then lazy dot quantifier .*?) to get the first right paren after that
-            "\\((?!.*\\().*?\\)");
 
    @Override
    public void run(String fileName) throws IOException {
@@ -33,11 +26,9 @@ public class Day18 implements Day{
    }
 
    private long processPart1(List<String> contents) {
-      //AtomicLong acc = new AtomicLong();
       long lineResults = 0l;
       for (String line : contents){
          lineResults+= processLine(new String(line), 1);
-         //long redditResult = evaluateExpression(new String(line));
       }
       return lineResults;
    }
@@ -127,62 +118,5 @@ public class Day18 implements Day{
       if (positionPlus == -1) return positionMult;
       return Math.min(positionPlus, positionMult);
    }
-
-
-   private static long evaluateExpression(String expression) {
-      //while the expression has any more parenthesis inside, find the innermost parenthetical expressions
-      // and recursively call this function on that substring to evaluate them
-      while (expression.contains("(")) {
-          Matcher matcher = innerMostParensRegex.matcher(expression);
-          matcher.find();
-          String innerExpression = matcher.group().replaceAll("[()]", "");
-          expression = matcher.replaceFirst(String.valueOf(evaluateExpression(innerExpression)));
-
-      }
-
-      List<String> symbols = new ArrayList<>(Arrays.asList(expression.split(" ")));
-
-      //extra logic needed for part 2 only - handle addition operations first
-      if (currentPart == 2) {
-          //with parens already handled through the above recursion
-          //go ahead and evaluate all plus operations from left to right
-          while (symbols.contains("+")) {
-              //note this wouldn't handle a string beginning or ending with + but that's ok
-              int iOp = symbols.indexOf("+");
-              int iNum1 = iOp - 1;
-              int iNum2 = iOp + 1;
-              //replace num1 with the summed value, and remove the 2 other symbols (+, and num2)
-              symbols.set(iNum1, String.valueOf(Long.parseLong(symbols.get(iNum1)) + Long.parseLong(symbols.get(iNum2))));
-              symbols.remove(iNum2);
-              symbols.remove(iOp);
-          }
-      }
-
-      //start with the first number and then evaluate from left to right
-      long currNum = Long.parseLong(symbols.remove(0));
-      String currOperation = null;
-      for (String symbol : symbols) {
-          //if the currOperation is null, the current symbol should be + or *
-          if (currOperation == null) {
-              currOperation = symbol;
-          } else {
-              //we already know what operation to do, so do it
-              switch (currOperation) {
-                  case "*":
-                      currNum *= Long.parseLong(symbol);
-                      break;
-                  case "+":
-                      currNum += Long.parseLong(symbol);
-                      break;
-                  default:
-                      throw new RuntimeException("error parsing symbols");
-              }
-              //clear out the operation, the next symbol should be another one
-              currOperation = null;
-          }
-      }
-
-      return currNum;
-  }
 
 }
