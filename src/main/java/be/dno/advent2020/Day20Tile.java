@@ -1,7 +1,6 @@
 package be.dno.advent2020;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Day20Tile {

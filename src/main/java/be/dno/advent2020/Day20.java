@@ -1,9 +1,7 @@
 package be.dno.advent2020;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import be.dno.Day;
 
@@ -27,7 +24,6 @@ public class Day20 implements Day{
    @Override
    public void run(String fileName) throws IOException {
       List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-      //generateAllBinaryStrings(value, count, generator, 0);
       long startTime = System.nanoTime();
       fillArrays(contents);
       System.out.println("Part 1 : " + processPart1());
@@ -147,34 +143,12 @@ public class Day20 implements Day{
       return false;
    }
 
-   private void printArray(Day20Tile[][] array){
-      for (int i = 0; i < array.length; i++){
-         for (int j = 0; j < array[i].length; j++){
-            if (array[i][j] == null){
-               System.out.print("[    ]");
-            }else {
-               System.out.print("["+array[i][j].number+"]");
-            }
-         }
-         System.out.println("");
-      }
-      System.out.println("");
-   }
-   private void printArray(char[][] array){
-      for (int i = 0; i < array.length; i++){
-         for (int j = 0; j < array[i].length; j++){
-            System.out.print(array[i][j]);
-         }
-         System.out.println("");
-      }
-      System.out.println("");
-   }
 
    private long processPart2() {
-      
+      //it's one of the border, I tried manually...
       finalArray[0][0] = mtiles.get(Integer.valueOf("3539"));
       solveSudoku();
-      //printArray(finalArray);
+   
       for (int tilex = 0; tilex < PUZZLE_SIZE; tilex++){
          for (int tiley = 0; tiley < PUZZLE_SIZE; tiley++){
             char[][] theTileArray = finalArray[tilex][tiley].getInnerArray();
@@ -185,15 +159,11 @@ public class Day20 implements Day{
             }
          }
       }
-      //printArray(finalPicture);
+
       Day20Tile monsterTile = new Day20Tile(Integer.valueOf(42), finalPicture);
       monsterTile.generateTransforms();
       for (char[][] monster : monsterTile.getAllTransformations()){
-         //System.out.println("Transformation...");
          boolean isMonster = false;
-         //printArray(monster);
-         //find (#....##....##....###), then take all y-1 qnd y+1, check for other regex, sif all matches, remove # of the sea monter for this array
-         //System.out.println("");
          for (int i = 0; i < monster.length; i++){
             for (int j = 0; j < monster[i].length; j++){
                if (isSeaMonster(monster, i, j)){
@@ -270,7 +240,6 @@ public class Day20 implements Day{
    }
 
    public boolean solveSudoku() {
-      //printArray(finalArray);
       for(int row=0;row<PUZZLE_SIZE;row++){
          for(int col=0;col<PUZZLE_SIZE;col++){
             if(finalArray[row][col]==null){
