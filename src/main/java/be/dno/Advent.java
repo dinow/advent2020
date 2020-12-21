@@ -8,9 +8,8 @@ public class Advent {
 
 		long startTime = System.nanoTime();
 		day.fillDataStruct("day21.txt");
-		long part1 = day.processPart1();
-		if (part1 != 5) throw new Exception("Wrong result: " + part1);
-		long part2 = day.processPart2();
+		String part1 = day.processPart1();
+		String part2 = day.processPart2();
 		long endTime = System.nanoTime();
 		long timeElapsed = endTime - startTime;
 
