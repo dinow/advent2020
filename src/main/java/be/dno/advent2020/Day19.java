@@ -10,9 +10,9 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 
-import be.dno.Day;
+import be.dno.Day_old;
 
-public class Day19 implements Day{
+public class Day19 implements Day_old{
    private final Set<String> messages = new HashSet<>();
    private final Map<String, String> rules = new HashMap<>();
    private final static String REGEX_AB = "^[ab\\|\\(\\)]+$";

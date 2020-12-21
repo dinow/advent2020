@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
-import be.dno.Day;
+import be.dno.Day_old;
 
-public class Day18 implements Day{
+public class Day18 implements Day_old{
 
    @Override
    public void run(String fileName) throws IOException {

@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
-import be.dno.Day;
+import be.dno.Day_old;
 
-public class Day20 implements Day{
+public class Day20 implements Day_old{
    private final List<Day20Tile> tiles = new ArrayList<>();
    private final Map<Integer, Day20Tile> mtiles = new HashMap<>();
    private static final int SIZE = 10;

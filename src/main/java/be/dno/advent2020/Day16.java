@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 
-import be.dno.Day;
+import be.dno.Day_old;
 
-public class Day16 implements Day{
+public class Day16 implements Day_old{
 
    private Map<String, int[]> fields = new HashMap<>();
    private Map<String, Integer> fieldsPosition = new HashMap<>();

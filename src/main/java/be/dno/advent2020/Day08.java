@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import be.dno.Day;
-public class Day08 implements Day {
+import be.dno.Day_old;
+public class Day08 implements Day_old {
 
 	private int acc = 0;
 

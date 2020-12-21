@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
-import be.dno.Day;
-public class Day06 implements Day{
+import be.dno.Day_old;
+public class Day06 implements Day_old{
 
 	@Override
 	public void run(String fileName) throws IOException {

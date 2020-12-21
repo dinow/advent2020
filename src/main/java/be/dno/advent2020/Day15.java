@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import be.dno.Day;
-public class Day15 implements Day{
+import be.dno.Day_old;
+public class Day15 implements Day_old{
 
    //int[0] -> last -1, int[1] -> last
    Map<Integer, int[]> memory = new HashMap<>();
