@@ -6,19 +6,19 @@ import be.dno.advent2020.*;
 public class DayTest {
 
 	public static void main(String[] args) throws Exception {
-		Day day = new Day22();
+		Day day = new Day23();
 
-		long startTime = System.nanoTime();
-		day.fillDataStruct("9,2,6,3,1;5,8,4,7,10");
-		String part1 = "";//day.processPart1();
-		day.fillDataStruct("43,19;2,29,14");
+		long startTimePart1 = System.nanoTime();
+		day.fillDataStruct("389125467");
+		String part1 = day.processPart1();
+		long endTimePart1 = System.nanoTime();
+
+		long startTimePart2 = System.nanoTime();
 		String part2 = day.processPart2();
-		long endTime = System.nanoTime();
-		long timeElapsed = endTime - startTime;
+		long endTimePart2 = System.nanoTime();
 
-		System.out.println("Part 1 : " + part1);
-		System.out.println("Part 2 : " + part2);
-		System.out.println("Execution time in milliseconds : " + timeElapsed / 1000000);
+		System.out.println("Part 1 : " + part1 + " -- " + ((endTimePart1 - startTimePart1)/1000) + "us");
+		System.out.println("Part 2 : " + part2 + " -- " + ((endTimePart2 - startTimePart2)/1000) + "us");
 
 
 	}

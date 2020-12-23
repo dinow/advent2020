@@ -4,19 +4,20 @@ import be.dno.advent2020.*;
 
 public class Advent {
 	public static void main(String[] args) throws Exception {
-		Day day = new Day22();
+		Day day = new Day23();
 
-		long startTime = System.nanoTime();
-		day.fillDataStruct("30,42,25,7,29,1,16,50,11,40,4,41,3,12,8,20,32,38,31,2,44,28,33,18,10;36,13,46,15,27,45,5,19,39,24,14,9,17,22,37,47,43,21,6,35,23,48,34,26,49");
+		long startTimePart1 = System.nanoTime();
+		day.fillDataStruct("167248359");
 		String part1 = day.processPart1();
-		day.fillDataStruct("30,42,25,7,29,1,16,50,11,40,4,41,3,12,8,20,32,38,31,2,44,28,33,18,10;36,13,46,15,27,45,5,19,39,24,14,9,17,22,37,47,43,21,6,35,23,48,34,26,49");
-		String part2 = day.processPart2();
-		long endTime = System.nanoTime();
-		long timeElapsed = endTime - startTime;
+		long endTimePart1 = System.nanoTime();
 
-		System.out.println("Part 1 : " + part1);
-		System.out.println("Part 2 : " + part2);
-		System.out.println("Execution time in milliseconds : " + timeElapsed / 1000000);
+		long startTimePart2 = System.nanoTime();
+		day.fillDataStruct("167248359");
+		String part2 = day.processPart2();
+		long endTimePart2 = System.nanoTime();
+
+		System.out.println("Part 1 : " + part1 + " -- " + ((endTimePart1 - startTimePart1)/1000) + "us");
+		System.out.println("Part 2 : " + part2 + " -- " + ((endTimePart2 - startTimePart2)/1000) + "us");
 
 	}
 }
