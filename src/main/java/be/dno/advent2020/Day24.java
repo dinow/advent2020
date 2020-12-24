@@ -16,6 +16,8 @@ public class Day24 implements Day{
 
    private Set<Point2D> blackPoints = new HashSet<>();
    private List<String> lines;
+   private final Set<Point2D> futureBlacks = new HashSet<>();
+   private final Set<Point2D> futureWhites = new HashSet<>();
 
    @Override
    public void fillDataStruct(String fileName) throws IOException {
@@ -36,7 +38,6 @@ public class Day24 implements Day{
    public String processPart2() {
       for (int i = 0; i < 100; i++){
          flipTiles();
-         //System.out.println("Day "+(i+1)+" ["+blackPoints.size()+"]");
       }
       return ""+blackPoints.size();
    }
@@ -57,8 +58,8 @@ public class Day24 implements Day{
       minY-=1;
       minX-=1;
 
-      Set<Point2D> futureBlacks = new HashSet<>();
-      Set<Point2D> futureWhites = new HashSet<>();
+      futureBlacks.clear();
+      futureWhites.clear();
 
       //Any black tile with zero or more than 2 black tiles immediately adjacent to it is flipped to white.
       for(Point2D point : blackPoints){
