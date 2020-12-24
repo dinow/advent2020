@@ -74,17 +74,6 @@ public class Day23 implements Day{
       }
       return false;
    }
-   
-   private void printCup(Day23Cup cup) {
-      StringBuilder cups = new StringBuilder();
-      cups.append("(").append(cup).append(")");
-      Day23Cup nextCup = cup.next;
-      while(nextCup != null && nextCup.number != cup.number){
-         cups.append(" ").append(nextCup);
-         nextCup = nextCup.next;
-      }
-      System.out.println(cups);
-   }
 
    private String getCups(Day23Cup cup) {
       StringBuilder cups = new StringBuilder();

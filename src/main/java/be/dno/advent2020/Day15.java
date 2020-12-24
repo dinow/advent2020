@@ -4,21 +4,28 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import be.dno.Day_old;
-public class Day15 implements Day_old{
+import be.dno.Day;
+public class Day15 implements Day{
 
    //int[0] -> last -1, int[1] -> last
-   Map<Integer, int[]> memory = new HashMap<>();
+   private final Map<Integer, int[]> memory = new HashMap<>();
    private static final Integer ZERO = Integer.valueOf(0);
+   private String inputData;
+
    @Override
-   public void run(String fileName) throws IOException {
-      long startTime = System.nanoTime();
-      System.out.println("Part 1 : " + processPart(fileName, 2020));
-      System.out.println("Part 2 : " + processPart(fileName, 30000000));
-      long endTime = System.nanoTime();
-      long timeElapsed = endTime - startTime;
-      System.out.println("Execution time in milliseconds : " + timeElapsed / 1000000);
-   }
+	public void fillDataStruct(String fileName) throws IOException {
+		inputData = "14,1,17,0,3,20";
+	}
+
+	@Override
+	public String processPart1() {
+		return "" + processPart(inputData, 2020);
+	}
+
+	@Override
+	public String processPart2() {
+		return "" + processPart(inputData, 30_000_000);
+	}
 
    public Integer processPart(String fileName, int maxValue){
       memory.clear();

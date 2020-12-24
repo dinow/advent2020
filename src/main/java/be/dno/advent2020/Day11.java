@@ -5,8 +5,8 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import be.dno.Day_old;
-public class Day11 implements Day_old{
+import be.dno.Day;
+public class Day11 implements Day{
 
 	private static char[][] SEATS;
 	private static char[][] WORKING_SEATS;
@@ -18,10 +18,10 @@ public class Day11 implements Day_old{
 	
 	private enum HORIZONTAL_DIRECTION {
 		EAST, WEST, NONE;
-    }
-
+	}
+	
 	@Override
-	public void run(String fileName) throws IOException {
+	public void fillDataStruct(String fileName) throws IOException {
 		List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
 		SEATS = new char[contents.size()][contents.get(1).length()];
 		WORKING_SEATS = new char[contents.size()][contents.get(1).length()];
@@ -31,32 +31,29 @@ public class Day11 implements Day_old{
 				SEATS[i][j] = line.charAt(j);
 			}
 		}
+	}
 
+	@Override
+	public String processPart1() {
 		boolean alive = true;
 		while(alive) {
 			copyArray(0);
 			alive = playLife(true, 4);
 			copyArray(1);
 		}
-		System.out.println("Part 1 : " + countChars('#'));
+		return ""+ countChars('#');
+	}
 
-		for(int i = 0; i < SEATS.length; i++) {
-			String line = contents.get(i);
-			for (int j = 0; j < SEATS[i].length; j++) {
-				SEATS[i][j] = line.charAt(j);
-			}
-		}
-		alive = true;
+	@Override
+	public String processPart2() {
+		boolean alive = true;
 		while(alive) {
 			copyArray(0);
 			alive = playLife(false, 5);
 			copyArray(1);
 		}
-		System.out.println("Part 2 : " + countChars('#'));
+		return ""+ countChars('#');
 	}
-
-
-
 
 	private void copyArray(int mode) {
 		for(int i = 0; i < SEATS.length; i++) {
@@ -70,18 +67,12 @@ public class Day11 implements Day_old{
 		}
 	}
 
-
-
-
 	private boolean playLife(boolean adgacentMode, int occupThreshold) {
 		boolean changeMade = false;
 		for(int i = 0; i < SEATS.length; i++) {
 			for (int j = 0; j < SEATS[i].length; j++) {
 				changeMade |= processSeat(i, j, adgacentMode, occupThreshold);
 			}
-		}
-		if (changeMade) {
-			//printSeats();
 		}
 		return changeMade;
 	}
@@ -161,8 +152,6 @@ public class Day11 implements Day_old{
 		}
 		return cpt;
 	}
-
-
 
 	public void printSeats() {
 		System.out.print("\n");

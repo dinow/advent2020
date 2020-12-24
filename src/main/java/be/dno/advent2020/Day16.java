@@ -11,20 +11,21 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 
-import be.dno.Day_old;
+import be.dno.Day;
 
-public class Day16 implements Day_old{
+public class Day16 implements Day{
 
    private Map<String, int[]> fields = new HashMap<>();
    private Map<String, Integer> fieldsPosition = new HashMap<>();
    private int[] myTicket;
    private Map<String, int[]> validTickets = new HashMap<>();
+   private List<String> contents;
 
    @Override
-   public void run(String fileName) throws IOException {
-      long startTime = System.nanoTime();
-
-      fields.put("departure location", new int[]{ 41, 598, 605, 974});
+	public void fillDataStruct(String fileName) throws IOException {
+      fields.clear();
+      contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
+		fields.put("departure location", new int[]{ 41, 598, 605, 974});
       fields.put("departure station",  new int[]{ 30, 617, 625, 957});
       fields.put("departure platform", new int[]{ 29, 914, 931, 960});
       fields.put("departure track",    new int[]{ 39, 734, 756, 972});
@@ -45,12 +46,16 @@ public class Day16 implements Day_old{
       fields.put("wagon",              new int[]{ 47, 435, 446, 961});
       fields.put("zone",               new int[]{ 30, 155, 179, 957});
       myTicket = Arrays.stream("71,127,181,179,113,109,79,151,97,107,53,193,73,83,191,101,89,149,103,197".split(",")).mapToInt(Integer::parseInt).toArray();
+	}
 
-      System.out.println("Part 1 : " + processPart1(fileName));
-      System.out.println("Part 2 : " + processPart2(fileName, myTicket.length));
-      long endTime = System.nanoTime();
-      long timeElapsed = endTime - startTime;
-      System.out.println("Execution time in milliseconds : " + timeElapsed / 1000000);
+	@Override
+	public String processPart1() {
+		return "" + _processPart1();
+	}
+
+	@Override
+	public String processPart2() {
+		return "" + _processPart2(myTicket.length);
    }
 
    public boolean isOneRuleOk(int number){
@@ -60,10 +65,9 @@ public class Day16 implements Day_old{
       return false;
    }
 
-   public long processPart2(String fileName, int nbFields) throws IOException {
+   public long _processPart2(int nbFields) {
       long part2 = 1l;
 
-      List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
       for(String line : contents){
          boolean allOk = true;
          for (int value : Arrays.stream(line.split(",")).map(Integer::valueOf).collect(Collectors.toList())){
@@ -105,9 +109,8 @@ public class Day16 implements Day_old{
       return (value >= boundaries[0] && value <= boundaries[1]) || (value >= boundaries[2] && value <= boundaries[3]);
    }
 
-   public Integer processPart1(String fileName) throws IOException{
+   public Integer _processPart1(){
       int part1 = 0;
-      List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
       for(String line : contents){
          for (int value : Arrays.stream(line.split(",")).map(Integer::valueOf).collect(Collectors.toList())){
             boolean oneValid = false;

@@ -8,33 +8,48 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
-import be.dno.Day_old;
-public class Day06 implements Day_old{
+import be.dno.Day;
+public class Day06 implements Day{
+	private List<String> contents;
+	private final Set<String> groupSet = new HashSet<>();
+	private final Set<String> overallSet  = new HashSet<>();
+	private final String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
 	@Override
-	public void run(String fileName) throws IOException {
-		List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-		Set<String> groupSet = new HashSet<>();
-		Set<String> overallSet  = new HashSet<>();
-		String alphabet = "abcdefghijklmnopqrstuvwxyz";
+	public void fillDataStruct(String fileName) throws IOException {
+		contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
 		overallSet.addAll(Arrays.asList(alphabet.split("")));
+	}
+
+	@Override
+	public String processPart1() {
 		int cptPart1 = 0;
-		int cptPart2 = 0;
 		for(String line : contents) {
 			if (line.isEmpty()){
 				cptPart1 += groupSet.size();
-				cptPart2 += overallSet.size();
 				groupSet.clear();
+			} else {
+				groupSet.addAll(Arrays.asList(line.split("")));
+			}
+			
+		}
+		return cptPart1+"";
+	}
+
+	@Override
+	public String processPart2() {
+		int cptPart2 = 0;
+		for(String line : contents) {
+			if (line.isEmpty()){
+				cptPart2 += overallSet.size();
 				overallSet.clear();
 				overallSet.addAll(Arrays.asList(alphabet.split("")));
 			} else {
-				groupSet.addAll(Arrays.asList(line.split("")));
 				overallSet.retainAll(Arrays.asList(line.split("")));
 			}
 			
 		}
-		System.out.println("part1: "+ cptPart1);
-		System.out.println("part2: "+ cptPart2);
+		return cptPart2+"";
 	}
 
 }

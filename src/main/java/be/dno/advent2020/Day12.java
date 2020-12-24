@@ -6,8 +6,8 @@ import java.awt.Point;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import be.dno.Day_old;
-public class Day12 implements Day_old{
+import be.dno.Day;
+public class Day12 implements Day{
 
 	private enum Direction {
 		N(0), S(180), E(90), W(270);
@@ -29,27 +29,37 @@ public class Day12 implements Day_old{
 	private Point startingPosition = new Point(0,0);
 	private Point currentPosition = new Point(0,0);
 	private Point currentWaypoint = new Point(10,-1);
+	private List<String> contents;
 
 	@Override
-	public void run(String fileName) throws IOException {
-		List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
+	public void fillDataStruct(String fileName) throws IOException {
+		contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
+	}
+
+	@Override
+	public String processPart1() {
 		for  (String line : contents){
 			move(line);
 		}
-		System.out.println("part 1 : " + (Math.abs(currentPosition.x-startingPosition.x) + Math.abs(currentPosition.y-startingPosition.y)));
+		return "" + (Math.abs(currentPosition.x-startingPosition.x) + Math.abs(currentPosition.y-startingPosition.y));
+	}
+
+	@Override
+	public String processPart2() {
 		currentDirection = Direction.E;
 		startingPosition = new Point(0,0);
 		currentPosition = new Point(0,0);
 		for  (String line : contents){
 			moveWaypoint(line);
 		}
-		System.out.println("part 2 : " + (Math.abs(currentPosition.x-startingPosition.x) + Math.abs(currentPosition.y-startingPosition.y)));
+		return "" + (Math.abs(currentPosition.x-startingPosition.x) + Math.abs(currentPosition.y-startingPosition.y));
 	}
+
 
 	private void moveWaypoint(String line){
 		char action = line.charAt(0);
 		int distance = Integer.parseInt(line.substring(1, line.length()));
-		System.out.println(action + " - " + distance);
+		//System.out.println(action + " - " + distance);
 		//first turn the ship
 		
 		if (action == 'R' || action == 'L') {
@@ -61,8 +71,8 @@ public class Day12 implements Day_old{
 				moveBoatToWaypoint(distance);
 			}
 		}
-		System.out.println("currentPosition : ["+currentPosition.x+", "+currentPosition.y+"]");
-		System.out.println("currentWaypoint : ["+currentWaypoint.x+", "+currentWaypoint.y+"]");
+		//System.out.println("currentPosition : ["+currentPosition.x+", "+currentPosition.y+"]");
+		//System.out.println("currentWaypoint : ["+currentWaypoint.x+", "+currentWaypoint.y+"]");
 	}
 
 	private void moveBoatToWaypoint(int steps){
@@ -103,7 +113,7 @@ public class Day12 implements Day_old{
 	private void move(String line){
 		char action = line.charAt(0);
 		int distance = Integer.parseInt(line.substring(1, line.length()));
-		System.out.println(action + " - " + distance);
+		//System.out.println(action + " - " + distance);
 		//first turn the ship
 		
 		if (action == 'R' || action == 'L') {

@@ -8,26 +8,38 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 
-import be.dno.Day_old;
+import be.dno.Day;
 
-public class Day17 implements Day_old{
+public class Day17 implements Day{
    private final Set<Day17Point> activesValues = new HashSet<>();
    private int cube_border_size;
 
    @Override
-   public void run(String fileName) throws IOException {
-      long startTime = System.nanoTime();
-      fillMap(fileName);
-      System.out.println("Part 1 : " + processPart1(6));
+	public void fillDataStruct(String fileName) throws IOException {
+		List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
+      cube_border_size = contents.size();
       activesValues.clear();
-      fillMap(fileName);
-      System.out.println("Part 2 : " + processPart2(6));
-      long endTime = System.nanoTime();
-      long timeElapsed = endTime - startTime;
-      System.out.println("Execution time in milliseconds : " + timeElapsed / 1000000);
+      for (int x = 0; x < cube_border_size; x++) {
+         for (int y = 0; y < cube_border_size; y++){
+            if (contents.get(x).charAt(y) == '#'){
+               activesValues.add(new Day17Point(x,y,0, 0));
+            }
+         }
+      }
+
+	}
+
+	@Override
+	public String processPart1() {
+		return ""+_processPart1(6);
+	}
+
+	@Override
+	public String processPart2() {
+		return ""+_processPart2(6);
    }
 
-   public long processPart1(int cycles) {
+   private long _processPart1(int cycles) {
       for (int cycle = 0; cycle < cycles; cycle++){
          Set<Day17Point> toAdd = new HashSet<>();
          Set<Day17Point> toRemove = new HashSet<>();
@@ -46,7 +58,7 @@ public class Day17 implements Day_old{
       return activesValues.size();
    }
 
-   public long processPart2(int cycles) {
+   private long _processPart2(int cycles) {
       for (int cycle = 0; cycle < cycles; cycle++){
          Set<Day17Point> toAdd = new HashSet<>();
          Set<Day17Point> toRemove = new HashSet<>();
@@ -63,7 +75,7 @@ public class Day17 implements Day_old{
       return activesValues.size();
    }
 
-   public int countActiveNeighbors(Day17Point position, int cycle){
+   private int countActiveNeighbors(Day17Point position, int cycle){
       int actives = 0;
       for (int z = position.z-1; z <= position.z+1; z++){
          for (int x = position.x-1; x <= position.x+1; x++){
@@ -79,7 +91,7 @@ public class Day17 implements Day_old{
       return actives;
    }
 
-   public int countActiveNeighbors2(Day17Point position, int cycle){
+   private int countActiveNeighbors2(Day17Point position, int cycle){
       int actives = 0;
       for (int z = position.z-1; z <= position.z+1; z++){
          for (int x = position.x-1; x <= position.x+1; x++){
@@ -102,7 +114,7 @@ public class Day17 implements Day_old{
     * @param position
     * @return
     */
-   public Set<Day17Point> getPointsToAdd(int cycle){
+    private Set<Day17Point> getPointsToAdd(int cycle){
       Set<Day17Point> points = new HashSet<>();
       //iterate trhough the virtual array
       for (int z = (0-(cycle+1)); z <= (cube_border_size+cycle); z++){
@@ -119,7 +131,7 @@ public class Day17 implements Day_old{
       return points;
    }
 
-   public Set<Day17Point> getPointsToAdd2(int cycle){
+   private Set<Day17Point> getPointsToAdd2(int cycle){
       Set<Day17Point> points = new HashSet<>();
       //iterate trhough the virtual array
       for (int z = (0-(cycle+1)); z <= (cube_border_size+cycle); z++){
@@ -137,18 +149,4 @@ public class Day17 implements Day_old{
       }
       return points;
    }
-
-   public void fillMap(String fileName) throws IOException{
-      List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-      cube_border_size = contents.size();
-
-      for (int x = 0; x < cube_border_size; x++) {
-         for (int y = 0; y < cube_border_size; y++){
-            if (contents.get(x).charAt(y) == '#'){
-               activesValues.add(new Day17Point(x,y,0, 0));
-            }
-         }
-      }
-   }
-
 }

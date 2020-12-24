@@ -10,41 +10,40 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 
-import be.dno.Day_old;
+import be.dno.Day;
 
-public class Day19 implements Day_old{
+public class Day19 implements Day{
    private final Set<String> messages = new HashSet<>();
    private final Map<String, String> rules = new HashMap<>();
    private final static String REGEX_AB = "^[ab\\|\\(\\)]+$";
+   List<String> contents;
+
    @Override
-   public void run(String fileName) throws IOException {
-      List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-      long startTime = System.nanoTime();
+	public void fillDataStruct(String fileName) throws IOException {
+		contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
+      
+	}
+
+   @Override
+   public String processPart1() {
       fillRulesAndMessages(contents);
-      System.out.println("Part 1 : " + processPart1());
+      int cpt= 0;
+      String rule = rules.get("0");
+      for (String message : messages){
+         if (message.matches(rule)) cpt++;
+      }
+      return cpt+"";
+   }
+
+   @Override
+   public String processPart2() {
       fillRulesAndMessages();
-      System.out.println("Part 2 : " + processPart2());
-      long endTime = System.nanoTime();
-      long timeElapsed = endTime - startTime;
-      System.out.println("Execution time in milliseconds : " + timeElapsed / 1000000);
-   }
-
-   private long processPart1() {
       int cpt= 0;
       String rule = rules.get("0");
       for (String message : messages){
          if (message.matches(rule)) cpt++;
       }
-      return cpt;
-   }
-
-   private long processPart2() {
-      int cpt= 0;
-      String rule = rules.get("0");
-      for (String message : messages){
-         if (message.matches(rule)) cpt++;
-      }
-      return cpt;
+      return cpt+"";
    }
 
    private void fillRulesAndMessages(List<String> lines){

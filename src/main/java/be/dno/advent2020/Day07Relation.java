@@ -11,7 +11,6 @@ public class Day07Relation {
 		for (Integer val : subBags.values()) {
 			sum += val;
 		}
-		System.out.println(bagName+" contains "+sum+" bags");
 		return sum;
 	}
 }

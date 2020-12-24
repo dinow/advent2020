@@ -9,14 +9,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
-import be.dno.Day_old;
-public class Day07 implements Day_old {
+import be.dno.Day;
+public class Day07 implements Day{
+
 	private static final String MY_BAG = "shiny gold";
 	private final Map<String, Day07Relation> mapContains = new HashMap<>();
+	private final Set<String> superBags = new HashSet<>();
+
 	@Override
-	public void run(String fileName) throws IOException {
+	public void fillDataStruct(String fileName) throws IOException {
 		List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-		Set<String> superBags = new HashSet<>();
+		
 		boolean found = true;
 		superBags.add(MY_BAG);
 
@@ -41,10 +44,20 @@ public class Day07 implements Day_old {
 				}
 			}
 		}
-		System.out.println("Part 1 : "+ (superBags.size()-1));
-		int sum2 = addRecurs(MY_BAG, 1) + mapContains.get(MY_BAG).getBagCount();
-		System.out.println("Part 2 : "+ (sum2));
+
 	}
+
+	@Override
+	public String processPart1() {
+		return "" + ((superBags.size()-1));
+	}
+
+	@Override
+	public String processPart2() {
+		return ""+ (addRecurs(MY_BAG, 1) + mapContains.get(MY_BAG).getBagCount());
+	}
+
+	
 
 	private int addRecurs(String currentBag, int currentMult) {
 		Day07Relation rel = mapContains.get(currentBag);

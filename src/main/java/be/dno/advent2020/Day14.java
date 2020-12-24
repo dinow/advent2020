@@ -8,18 +8,24 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import be.dno.Day_old;
-public class Day14 implements Day_old{
+import be.dno.Day;
+public class Day14 implements Day{
 
    Map<Long, String> memory = new HashMap<>();
    String mask = null;
    String result = null;
+   List<String> contents;
+
 
    @Override
-   public void run(String fileName) throws IOException {
-      List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
+	public void fillDataStruct(String fileName) throws IOException {
+		contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
+	}
 
-      for(String line : contents){
+	@Override
+	public String processPart1() {
+      memory.clear();
+		for(String line : contents){
          if (line.startsWith("mask")){
             mask = line.split(" = ")[1].trim();
          } else {
@@ -32,22 +38,25 @@ public class Day14 implements Day_old{
       for(String value : memory.values()){
          part1 += Long.parseLong(value, 2);
       }
-      System.out.println("Part 1 : " + part1);
+      return "" + part1;
+	}
 
-      memory.clear();
-      for(String line : contents){
-         System.out.println(line);
+	@Override
+	public String processPart2() {
+		memory.clear();
+		for(String line : contents){
+         //System.out.println(line);
          if (line.startsWith("mask")){
             mask = line.split(" = ")[1].trim();
          } else {
             Integer memoryPos = Integer.valueOf(line.substring(4, line.indexOf("]")));
             String binValue = StringUtils.leftPad(Integer.toBinaryString(memoryPos), 36, "0");
-            System.out.println(binValue);
-            System.out.println("");
+            //System.out.println(binValue);
+            //System.out.println("");
             Integer value = Integer.valueOf(line.split(" = ")[1].trim());
             result = applyMask2(binValue, mask);
-            System.out.println(result);
-            System.out.println("");
+            //System.out.println(result);
+            //System.out.println("");
             //Generate as many binary Strings as there is X in the mask (2 ^ nbX)
             int count = (int)mask.chars().filter(ch -> ch == 'X').count();
             int[] generator = new int[count];
@@ -62,8 +71,8 @@ public class Day14 implements Day_old{
       for(String value : memory.values()){
          part2 += Long.parseLong(value, 2);
       }
-      System.out.println("Part 2 : " + part2);
-   }
+      return ""+ part2;
+	}
 
    private void printTheArray(Integer value, int arr[], int n) {
       String binInt = "";
@@ -74,7 +83,7 @@ public class Day14 implements Day_old{
          else binInt += chars[i]+"";
       }
       binInt = StringUtils.leftPad(binInt, 36, "0");
-      System.out.println(binInt);
+      //System.out.println(binInt);
       memory.put(Long.parseLong(binInt, 2), Integer.toBinaryString(value));
 }
 

@@ -6,14 +6,19 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import be.dno.Day_old;
+import be.dno.Day;
 
-public class Day05 implements Day_old{
+public class Day05 implements Day{
+	private int[] seats;
+
+	private double computeLine(String line) {
+		return Integer.parseInt(line.replaceAll("[FL]", "0").replaceAll("[BR]", "1"), 2);
+	}
 
 	@Override
-	public void run(String fileName) throws IOException {
+	public void fillDataStruct(String fileName) throws IOException {
 		List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-		int[] seats = new int[contents.size()];
+		seats = new int[contents.size()];
 		int i = 0;
 		for(String line : contents) {
 			double current = computeLine(line);
@@ -21,16 +26,21 @@ public class Day05 implements Day_old{
 			i++;
 		}
 		Arrays.sort(seats);
-		System.out.println("Part 1 : "+seats[seats.length-1]);
-		for (int j = 0; j < seats.length-1; j++) {
-			if (seats[j+1] - seats[j] > 1) {
-				System.out.println("Part 2 : "+(seats[j]+1));
-			}
-		}
 	}
 
-	private double computeLine(String line) {
-		return Integer.parseInt(line.replaceAll("[FL]", "0").replaceAll("[BR]", "1"), 2);
+	@Override
+	public String processPart1() {
+		return ""+seats[seats.length-1];
+	}
+
+	@Override
+	public String processPart2() {
+		for (int j = 0; j < seats.length-1; j++) {
+			if (seats[j+1] - seats[j] > 1) {
+				return ""+(seats[j]+1);
+			}
+		}
+		return "null";
 	}
 
 }

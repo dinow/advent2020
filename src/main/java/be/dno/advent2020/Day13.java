@@ -6,13 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 import static java.util.Arrays.stream;
 import org.apache.commons.io.IOUtils;
-import be.dno.Day_old;
-public class Day13 implements Day_old{
+import be.dno.Day;
+public class Day13 implements Day{
 
+	List<String> contents;
 
 	@Override
-	public void run(String fileName) throws IOException {
-		List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
+	public void fillDataStruct(String fileName) throws IOException {
+		contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
+	}
+
+	@Override
+	public String processPart1() {
 		int earliestTime = Integer.parseInt(contents.get(0));
 		int minutesToWait = Integer.MAX_VALUE;
 		int choosenBusLine = -1;
@@ -26,7 +31,11 @@ public class Day13 implements Day_old{
 			}
 
 		}
-		System.out.println("part 1 : " + (choosenBusLine*minutesToWait));
+		return "" + (choosenBusLine*minutesToWait);
+	}
+
+	@Override
+	public String processPart2() {
 		String[] sbuses = contents.get(1).split(",");
 		List<Long> iBuses = new ArrayList<>();
 		List<Long> iRems = new ArrayList<>();
@@ -44,12 +53,8 @@ public class Day13 implements Day_old{
 
 		long num[] = buses; 
         long rem[] = rems; 
-		System.out.println("part 2 : " +chineseRemainder(num, rem)); 
-		
-		System.out.println ( (600689120448303l/1000000000)*7);
+		return "" +chineseRemainder(num, rem); 
 	}
-
-
 
 	public long chineseRemainder(long[] n, long[] a) {
  

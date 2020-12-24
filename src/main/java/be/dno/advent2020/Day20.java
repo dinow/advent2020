@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
-import be.dno.Day_old;
+import be.dno.Day;
 
-public class Day20 implements Day_old{
+public class Day20 implements Day{
    private final List<Day20Tile> tiles = new ArrayList<>();
    private final Map<Integer, Day20Tile> mtiles = new HashMap<>();
    private static final int SIZE = 10;
@@ -22,17 +22,11 @@ public class Day20 implements Day_old{
    private final Map<Day20Tile, Map<Integer, char[][]>> mapMatches = new HashMap<>();
 
    @Override
-   public void run(String fileName) throws IOException {
-      List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-      long startTime = System.nanoTime();
+	public void fillDataStruct(String fileName) throws IOException {
+		List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
       fillArrays(contents);
-      System.out.println("Part 1 : " + processPart1());
-      System.out.println("Part 2 : " + processPart2());
-      long endTime = System.nanoTime();
-      long timeElapsed = endTime - startTime;
-      System.out.println("Execution time in milliseconds : " + timeElapsed / 1000000);
-      
-   }
+	}
+
 
    private void fillArrays(List<String> content){
       Integer currentNumber = Integer.valueOf(0);
@@ -64,7 +58,8 @@ public class Day20 implements Day_old{
       }
    }
 
-   private long processPart1(){
+   @Override
+	public String processPart1(){
       Set<Integer> corners = new HashSet<>();
       while(corners.size() != 4){
          for(int main_tile_idx = 0; main_tile_idx < tiles.size(); main_tile_idx++){
@@ -98,7 +93,7 @@ public class Day20 implements Day_old{
                }
             }
             if (matches == 2){
-               System.out.println("Add "+tile.number+" in corners");
+               //System.out.println("Add "+tile.number+" in corners");
                corners.add(tile.number);
                break;
             }
@@ -108,7 +103,7 @@ public class Day20 implements Day_old{
       for (Integer i : corners){
          acc *= i;
       }
-      return acc;
+      return acc+"";
    }
 
 
@@ -144,7 +139,8 @@ public class Day20 implements Day_old{
    }
 
 
-   private long processPart2() {
+   @Override
+	public String processPart2() {
       //it's one of the border, I tried manually...
       finalArray[0][0] = mtiles.get(Integer.valueOf("3539"));
       solveSudoku();
@@ -167,7 +163,7 @@ public class Day20 implements Day_old{
          for (int i = 0; i < monster.length; i++){
             for (int j = 0; j < monster[i].length; j++){
                if (isSeaMonster(monster, i, j)){
-                  System.out.println("Monster found !");
+                  //System.out.println("Monster found !");
                   isMonster = true;
                }
             }
@@ -183,10 +179,10 @@ public class Day20 implements Day_old{
                   }
                }
             }
-            System.out.println("\t"+acc);
+            return ""+acc;
          }
       }
-      return 0l;
+      return 0l+"";
    }
 
    private boolean isSeaMonster(char[][] monster, int i, int j) {

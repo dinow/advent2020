@@ -6,35 +6,34 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
-import be.dno.Day_old;
+import be.dno.Day;
 
-public class Day18 implements Day_old{
+public class Day18 implements Day{
+   List<String> contents;
 
    @Override
-   public void run(String fileName) throws IOException {
-      List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-      long startTime = System.nanoTime();
-      System.out.println("Part 1 : " + processPart1(contents));
-      System.out.println("Part 2 : " + processPart2(contents));
-      long endTime = System.nanoTime();
-      long timeElapsed = endTime - startTime;
-      System.out.println("Execution time in milliseconds : " + timeElapsed / 1000000);
-   }
+	public void fillDataStruct(String fileName) throws IOException {
+		contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
 
-   private long processPart1(List<String> contents) {
+	}
+
+
+   @Override
+	public String processPart1() {
       long lineResults = 0l;
       for (String line : contents){
          lineResults+= processLine(new String(line), 1);
       }
-      return lineResults;
+      return ""+lineResults;
    }
 
-   private long processPart2(List<String> contents) {
+   @Override
+	public String processPart2() {
       long lineResults = 0l;
       for (String line : contents){
          lineResults+= processLine(new String(line), 2);
       }
-      return lineResults;
+      return ""+lineResults;
    }
 
    private long processLine(String line, int mode) {
