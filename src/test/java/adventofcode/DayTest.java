@@ -6,9 +6,9 @@ import be.dno.advent2015.*;
 public class DayTest {
 
 	public static void main(String[] args) throws Exception {
-		Day day = new Day25();
+		Day day = new Day24();
 		long startTimeDS = System.nanoTime();
-		day.fillDataStruct("1;4");
+		day.fillDataStruct("2015/day24.txt");
 		long endTimeDS = System.nanoTime();
 		long startTimePart1 = System.nanoTime();
 		String part1 = day.processPart1();

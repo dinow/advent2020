@@ -2,20 +2,18 @@ package be.dno.advent2015;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
-
 
 import be.dno.Day;
 
 public class Day24 implements Day{
    private int[] number;
-   private int groupWeight = 0;;
+   private long minQE   = Long.MAX_VALUE;
+   private long minPack = Long.MAX_VALUE;
+   private int groupWeight;
+   private boolean part1check = true;
 
    @Override
    public void fillDataStruct(String fileName) throws IOException {
@@ -29,25 +27,90 @@ public class Day24 implements Day{
 
    @Override
    public String processPart1() {
-      long minQE   = Long.MAX_VALUE;
-      long minPack = Long.MAX_VALUE;
-
+      
+      int totalWeight = 0;
       for (int i = 0; i < number.length; i++){
-         groupWeight += number[i];
+         totalWeight += number[i];
       }
-
-      Arrays.sort(number);
-
-      Set<Integer> group1 = new HashSet<>();
-      Set<Integer> group2 = new HashSet<>();
-      Set<Integer> group3 = new HashSet<>();
+      groupWeight = totalWeight/3;
 
 
-      return "";
+      int combLength = 1;
+      while (combLength <= minPack && part1check){
+         printCombination(number, number.length, combLength); 
+         combLength++;
+      }
+      
+      return ""+minQE;
    }
+
+
+   /* arr[]  ---> Input Array 
+    data[] ---> Temporary array to store current combination 
+    start & end ---> Staring and Ending indexes in arr[] 
+    index  ---> Current index in data[] 
+    r ---> Size of a combination to be printed */
+    private void combinationUtil(int arr[], int data[], int start, int end, int index, int r) { 
+       if (r > minPack) return;
+        // Current combination is ready to be printed, print it 
+        if (index == r) { 
+         int sum = 0;
+         long QE = 1;
+         for (int j=0; j<r; j++) {
+            sum += data[j];
+            if (sum > groupWeight) break;
+			   QE *= data[j];
+            if (r > minPack) break;
+            if (sum == groupWeight){
+               if (r <= minPack){
+                  if (r < minPack) System.out.println("Found a new min length : " + r);
+                  minPack = r;
+                  if (QE < minQE){
+                     minQE = QE;
+                     System.out.println("new min QE: " + minQE);
+                  }
+               }
+            }
+         }
+         return;
+        } 
+  
+        // replace index with all possible elements. The condition 
+        // "end-i+1 >= r-index" makes sure that including one element 
+        // at index will make a combination with remaining elements 
+        // at remaining positions 
+        for (int i=start; i<=end && end-i+1 >= r-index; i++) { 
+            data[index] = arr[i]; 
+            combinationUtil(arr, data, i+1, end, index+1, r); 
+        } 
+    } 
+  
+    // The main function that prints all combinations of size r 
+    // in arr[] of size n. This function mainly uses combinationUtil() 
+    private void printCombination(int arr[], int n, int r) { 
+        // A temporary array to store all combination one by one 
+        int data[]=new int[r]; 
+  
+        // Print all combination using temprary array 'data[]' 
+        combinationUtil(arr, data, 0, n-1, 0, r); 
+    } 
 
    @Override
    public String processPart2() {
-      return "";
+      int totalWeight = 0;
+      for (int i = 0; i < number.length; i++){
+         totalWeight += number[i];
+      }
+      groupWeight = totalWeight/4;
+
+
+      int combLength = 1;
+      while (combLength <= minPack && part1check){
+         printCombination(number, number.length, combLength); 
+         combLength++;
+      }
+      
+      return ""+minQE;
    }
+    
 }
