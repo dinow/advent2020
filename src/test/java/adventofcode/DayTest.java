@@ -1,14 +1,14 @@
 package adventofcode;
 
 import be.dno.Day;
-import be.dno.advent2020.*;
+import be.dno.advent2015.*;
 
 public class DayTest {
 
 	public static void main(String[] args) throws Exception {
 		Day day = new Day25();
 		long startTimeDS = System.nanoTime();
-		day.fillDataStruct("5764801;17807724");
+		day.fillDataStruct("1;4");
 		long endTimeDS = System.nanoTime();
 		long startTimePart1 = System.nanoTime();
 		String part1 = day.processPart1();

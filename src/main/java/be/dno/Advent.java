@@ -1,12 +1,12 @@
 package be.dno;
 
-import be.dno.advent2020.*;
+import be.dno.advent2015.*;
 
 public class Advent {
 	public static void main(String[] args) throws Exception {
 		Day day = new Day25();
 		long startTimeDS = System.nanoTime();
-		day.fillDataStruct("9789649;3647239");
+		day.fillDataStruct("2981;3075");
 		long endTimeDS = System.nanoTime();
 		long startTimePart1 = System.nanoTime();
 		String part1 = day.processPart1();
