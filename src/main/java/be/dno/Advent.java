@@ -4,14 +4,14 @@ import be.dno.advent2020.*;
 
 public class Advent {
 	public static void main(String[] args) throws Exception {
-		Day day = new Day20();
+		Day day = new Day25();
 		long startTimeDS = System.nanoTime();
-		day.fillDataStruct("2020/day20.txt");
+		day.fillDataStruct("9789649;3647239");
 		long endTimeDS = System.nanoTime();
 		long startTimePart1 = System.nanoTime();
 		String part1 = day.processPart1();
 		long endTimePart1 = System.nanoTime();
-		day.fillDataStruct("2020/day20.txt");
+		//day.fillDataStruct("2020/day24.txt");
 		long startTimePart2 = System.nanoTime();
 		String part2 = day.processPart2();
 		long endTimePart2 = System.nanoTime();
