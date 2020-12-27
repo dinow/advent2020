@@ -11,8 +11,8 @@ public abstract class Day {
    protected String fileName;
    public void readLines() throws IOException {
       lines = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-   };
-   public void fillDataStruct(){};
-   public String processPart1(){ return "";};
-   public String processPart2(){ return "";};
+   }
+   public void fillDataStruct(){}
+   public String processPart1(){ return "";}
+   public String processPart2(){ return "";}
 }
