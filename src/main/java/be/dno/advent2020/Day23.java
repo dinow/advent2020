@@ -1,22 +1,21 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import be.dno.Day;
 
-public class Day23 implements Day{
+public class Day23 extends Day{
    private Day23Cup firstCup = null;
    private String input;
    private Map<Integer, Day23Cup> mapOfCups = new HashMap<>();
 
    @Override
-   public void fillDataStruct(String fileName) throws IOException {
-      input = fileName;
+   public void fillDataStruct() {
+      input = lines.get(0);
       firstCup = null;
       Day23Cup currentCup = null;
-      for(char cupNumber : fileName.toCharArray()){
+      for(char cupNumber : input.toCharArray()){
          Day23Cup curCup = new Day23Cup(String.valueOf(cupNumber));
          mapOfCups.put(curCup.toInt(), curCup);
          if (firstCup == null){

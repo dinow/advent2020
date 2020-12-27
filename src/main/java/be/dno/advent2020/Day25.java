@@ -1,31 +1,24 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
-
-
 import be.dno.Day;
 
-public class Day25 implements Day{
+public class Day25 extends Day{
 
    private Long cardPublicKey;
    private Long doorPublicKey;
    private final static int SUBJECT_NUMBER = 7;
 
    @Override
-   public void fillDataStruct(String fileName) throws IOException {
-      cardPublicKey = Long.valueOf(fileName.split(";")[0]);
-      doorPublicKey = Long.valueOf(fileName.split(";")[1]);
+   public void fillDataStruct() {
+      String input = lines.get(0);
+      cardPublicKey = Long.valueOf(input.split(";")[0]);
+      doorPublicKey = Long.valueOf(input.split(";")[1]);
    }
 
    @Override
    public String processPart1() {
       long cardLoopNumber = getLoopSize(cardPublicKey);
       return ""+transform(doorPublicKey,cardLoopNumber);
-   }
-
-   @Override
-   public String processPart2() {
-      return "";
    }
 
    public long getLoopSize(Long publicKey){

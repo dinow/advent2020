@@ -1,11 +1,10 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import be.dno.Day;
-public class Day15 implements Day{
+public class Day15 extends Day{
 
    //int[0] -> last -1, int[1] -> last
    private final Map<Integer, int[]> memory = new HashMap<>();
@@ -13,8 +12,8 @@ public class Day15 implements Day{
    private String inputData;
 
    @Override
-	public void fillDataStruct(String fileName) throws IOException {
-		inputData = "14,1,17,0,3,20";
+	public void fillDataStruct() {
+		inputData = lines.get(0);
 	}
 
 	@Override

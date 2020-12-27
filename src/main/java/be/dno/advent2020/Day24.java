@@ -1,28 +1,19 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.HashSet;
-import java.util.List;
+
 import java.util.Set;
 
-import org.apache.commons.io.IOUtils;
 
 import java.awt.geom.Point2D;
 
 import be.dno.Day;
 
-public class Day24 implements Day{
+public class Day24 extends Day{
 
    private Set<Point2D> blackPoints = new HashSet<>();
-   private List<String> lines;
    private final Set<Point2D> futureBlacks = new HashSet<>();
    private final Set<Point2D> futureWhites = new HashSet<>();
-
-   @Override
-   public void fillDataStruct(String fileName) throws IOException {
-      lines = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-   }
 
    @Override
    public String processPart1() {

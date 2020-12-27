@@ -1,19 +1,19 @@
 package be.dno.advent2015;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import be.dno.Day;
 
-public class Day25 implements Day{
+public class Day25 extends Day {
    private int targetRow;
    private int targetColumn;
 
    @Override
-   public void fillDataStruct(String fileName) throws IOException {
-      targetRow = Integer.valueOf(fileName.split(";")[0]);
-      targetColumn = Integer.valueOf(fileName.split(";")[1]);
+   public void fillDataStruct() {
+      String input = lines.get(0);
+      targetRow = Integer.valueOf(input.split(";")[0]);
+      targetColumn = Integer.valueOf(input.split(";")[1]);
    }
 
    @Override

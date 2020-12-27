@@ -1,7 +1,21 @@
 package be.dno;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utils {
+
+    public static Integer[] extractNumbers(String input){
+        List<Integer> ints = new ArrayList<>();
+        Pattern p = Pattern.compile("\\d+");
+        Matcher m = p.matcher(input);
+        while(m.find()) {
+            ints.add(Integer.valueOf(m.group()));
+        }
+        return ints.toArray(new Integer[]{});
+    }
 
     public static void initMatrix(char[][] input, char c){
         for (int i = 0; i < input.length; i++){

@@ -1,31 +1,21 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import be.dno.Day;
-public class Day14 implements Day{
+public class Day14 extends Day{
 
    Map<Long, String> memory = new HashMap<>();
    String mask = null;
    String result = null;
-   List<String> contents;
-
-
-   @Override
-	public void fillDataStruct(String fileName) throws IOException {
-		contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-	}
 
 	@Override
 	public String processPart1() {
       memory.clear();
-		for(String line : contents){
+		for(String line : lines){
          if (line.startsWith("mask")){
             mask = line.split(" = ")[1].trim();
          } else {
@@ -44,7 +34,7 @@ public class Day14 implements Day{
 	@Override
 	public String processPart2() {
 		memory.clear();
-		for(String line : contents){
+		for(String line : lines){
          //System.out.println(line);
          if (line.startsWith("mask")){
             mask = line.split(" = ")[1].trim();

@@ -1,23 +1,13 @@
 package be.dno.advent2016;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.io.IOUtils;
-
 import be.dno.Day;
 
-public class Day07 implements Day{
-   List<String> lines;
-
-   @Override
-   public void fillDataStruct(String fileName) throws IOException {
-      lines = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-   }
+public class Day07 extends Day {
 
    @Override
    public String processPart1() {

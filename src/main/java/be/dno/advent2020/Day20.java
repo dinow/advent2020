@@ -1,7 +1,5 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,10 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.io.IOUtils;
 import be.dno.Day;
 
-public class Day20 implements Day{
+public class Day20 extends Day{
    private final List<Day20Tile> tiles = new ArrayList<>();
    private final Map<Integer, Day20Tile> mtiles = new HashMap<>();
    private static final int SIZE = 10;
@@ -22,9 +19,8 @@ public class Day20 implements Day{
    private final Map<Day20Tile, Map<Integer, char[][]>> mapMatches = new HashMap<>();
 
    @Override
-	public void fillDataStruct(String fileName) throws IOException {
-		List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-      fillArrays(contents);
+	public void fillDataStruct() {
+		fillArrays(lines);
 	}
 
 

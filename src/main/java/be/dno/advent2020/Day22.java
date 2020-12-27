@@ -1,20 +1,19 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
 import be.dno.Day;
 
-public class Day22 implements Day{
+public class Day22 extends Day{
    private LinkedList<Integer> GLOBAL_PLAYER1;
    private LinkedList<Integer> GLOBAL_PLAYER2;
 
 
    @Override
-   public void fillDataStruct(String fileName) throws IOException {
-      String[] players = fileName.split(";");
+   public void fillDataStruct() {
+      String[] players = lines.get(0).split(";");
       GLOBAL_PLAYER1 = buildDeck(players[0], Integer.MAX_VALUE);
       GLOBAL_PLAYER2 = buildDeck(players[1], Integer.MAX_VALUE);
    }

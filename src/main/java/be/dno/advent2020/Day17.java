@@ -1,27 +1,23 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.HashSet;
-import java.util.List;
+
 import java.util.Set;
 
-import org.apache.commons.io.IOUtils;
 
 import be.dno.Day;
 
-public class Day17 implements Day{
+public class Day17 extends Day{
    private final Set<Day17Point> activesValues = new HashSet<>();
    private int cube_border_size;
 
    @Override
-	public void fillDataStruct(String fileName) throws IOException {
-		List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-      cube_border_size = contents.size();
+	public void fillDataStruct() {
+		cube_border_size = lines.size();
       activesValues.clear();
       for (int x = 0; x < cube_border_size; x++) {
          for (int y = 0; y < cube_border_size; y++){
-            if (contents.get(x).charAt(y) == '#'){
+            if (lines.get(x).charAt(y) == '#'){
                activesValues.add(new Day17Point(x,y,0, 0));
             }
          }

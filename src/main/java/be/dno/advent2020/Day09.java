@@ -7,18 +7,17 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import be.dno.Day;
-public class Day09 implements Day {
+public class Day09 extends Day {
 
 	private static int WINDOW_SIZE = 25;
 	long invalidNumberPart1 = Long.parseLong("0");
 	private long[] numbers;
 	
 	@Override
-	public void fillDataStruct(String fileName) throws IOException {
-		List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-		numbers = new long[contents.size()];
+	public void fillDataStruct() {
+		numbers = new long[lines.size()];
 		for(int i = 0; i < numbers.length; i++) {
-			numbers[i] = Long.parseLong(contents.get(i));
+			numbers[i] = Long.parseLong(lines.get(i));
 		}
 	}
 

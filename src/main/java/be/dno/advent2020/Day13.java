@@ -1,27 +1,18 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import static java.util.Arrays.stream;
-import org.apache.commons.io.IOUtils;
 import be.dno.Day;
-public class Day13 implements Day{
+public class Day13 extends Day{
 
-	List<String> contents;
-
-	@Override
-	public void fillDataStruct(String fileName) throws IOException {
-		contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-	}
 
 	@Override
 	public String processPart1() {
-		int earliestTime = Integer.parseInt(contents.get(0));
+		int earliestTime = Integer.parseInt(lines.get(0));
 		int minutesToWait = Integer.MAX_VALUE;
 		int choosenBusLine = -1;
-		for (String sBusLine : contents.get(1).split(",")){
+		for (String sBusLine : lines.get(1).split(",")){
 			if (sBusLine.equals("x")) continue;
 			int busLine = Integer.parseInt(sBusLine);
 			int closestNextTime = ((int)Math.ceil((double)earliestTime/busLine) * busLine);
@@ -36,7 +27,7 @@ public class Day13 implements Day{
 
 	@Override
 	public String processPart2() {
-		String[] sbuses = contents.get(1).split(",");
+		String[] sbuses = lines.get(1).split(",");
 		List<Long> iBuses = new ArrayList<>();
 		List<Long> iRems = new ArrayList<>();
 		int idx = 0;

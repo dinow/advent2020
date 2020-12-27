@@ -1,31 +1,23 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.commons.io.IOUtils;
-
 import be.dno.Day;
 
-public class Day16 implements Day{
+public class Day16 extends Day{
 
    private Map<String, int[]> fields = new HashMap<>();
    private Map<String, Integer> fieldsPosition = new HashMap<>();
    private int[] myTicket;
    private Map<String, int[]> validTickets = new HashMap<>();
-   private List<String> contents;
-
    @Override
-	public void fillDataStruct(String fileName) throws IOException {
+	public void fillDataStruct() {
       fields.clear();
-      contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-		fields.put("departure location", new int[]{ 41, 598, 605, 974});
+      fields.put("departure location", new int[]{ 41, 598, 605, 974});
       fields.put("departure station",  new int[]{ 30, 617, 625, 957});
       fields.put("departure platform", new int[]{ 29, 914, 931, 960});
       fields.put("departure track",    new int[]{ 39, 734, 756, 972});
@@ -68,7 +60,7 @@ public class Day16 implements Day{
    public long _processPart2(int nbFields) {
       long part2 = 1l;
 
-      for(String line : contents){
+      for(String line : lines){
          boolean allOk = true;
          for (int value : Arrays.stream(line.split(",")).map(Integer::valueOf).collect(Collectors.toList())){
             allOk &= isOneRuleOk(value);
@@ -111,7 +103,7 @@ public class Day16 implements Day{
 
    public Integer _processPart1(){
       int part1 = 0;
-      for(String line : contents){
+      for(String line : lines){
          for (int value : Arrays.stream(line.split(",")).map(Integer::valueOf).collect(Collectors.toList())){
             boolean oneValid = false;
             for (int[] boundaries : fields.values()){

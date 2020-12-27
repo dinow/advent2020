@@ -1,32 +1,23 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.io.IOUtils;
 
 import be.dno.Day;
 
-public class Day19 implements Day{
+public class Day19 extends Day{
    private final Set<String> messages = new HashSet<>();
    private final Map<String, String> rules = new HashMap<>();
    private final static String REGEX_AB = "^[ab\\|\\(\\)]+$";
-   List<String> contents;
 
-   @Override
-	public void fillDataStruct(String fileName) throws IOException {
-		contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-      
-	}
 
    @Override
    public String processPart1() {
-      fillRulesAndMessages(contents);
+      fillRulesAndMessages(lines);
       int cpt= 0;
       String rule = rules.get("0");
       for (String message : messages){

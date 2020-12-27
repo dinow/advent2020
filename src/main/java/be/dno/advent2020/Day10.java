@@ -1,27 +1,22 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.io.IOUtils;
 
 import be.dno.Day;
-public class Day10 implements Day {
+
+public class Day10 extends Day {
 
 	private long[] numbers;
 
 	
 	@Override
-	public void fillDataStruct(String fileName) throws IOException {
-		List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-		numbers = new long[contents.size()+2];
-		for(int i = 0; i < contents.size(); i++) {
-			numbers[i] = Long.parseLong(contents.get(i));
+	public void fillDataStruct() {
+		numbers = new long[lines.size()+2];
+		for(int i = 0; i < lines.size(); i++) {
+			numbers[i] = Long.parseLong(lines.get(i));
 		}
-		numbers[contents.size()] = 0;
-		numbers[contents.size()+1] = Integer.MAX_VALUE;
+		numbers[lines.size()] = 0;
+		numbers[lines.size()+1] = Integer.MAX_VALUE;
 		Arrays.sort(numbers);
 		numbers[numbers.length-1] = numbers[numbers.length-2] + 3;
 	}

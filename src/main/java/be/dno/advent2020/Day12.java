@@ -1,13 +1,9 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.awt.Point;
-import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import be.dno.Day;
-public class Day12 implements Day{
+public class Day12 extends Day{
 
 	private enum Direction {
 		N(0), S(180), E(90), W(270);
@@ -29,16 +25,10 @@ public class Day12 implements Day{
 	private Point startingPosition = new Point(0,0);
 	private Point currentPosition = new Point(0,0);
 	private Point currentWaypoint = new Point(10,-1);
-	private List<String> contents;
-
-	@Override
-	public void fillDataStruct(String fileName) throws IOException {
-		contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-	}
 
 	@Override
 	public String processPart1() {
-		for  (String line : contents){
+		for  (String line : lines){
 			move(line);
 		}
 		return "" + (Math.abs(currentPosition.x-startingPosition.x) + Math.abs(currentPosition.y-startingPosition.y));
@@ -49,7 +39,7 @@ public class Day12 implements Day{
 		currentDirection = Direction.E;
 		startingPosition = new Point(0,0);
 		currentPosition = new Point(0,0);
-		for  (String line : contents){
+		for  (String line : lines){
 			moveWaypoint(line);
 		}
 		return "" + (Math.abs(currentPosition.x-startingPosition.x) + Math.abs(currentPosition.y-startingPosition.y));

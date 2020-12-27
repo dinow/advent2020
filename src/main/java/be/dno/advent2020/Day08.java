@@ -1,24 +1,19 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import be.dno.Day;
-public class Day08 implements Day {
+
+public class Day08 extends Day {
 
 	private int acc = 0;
 	Day08Instruction[] instructions;
 
 	@Override
-	public void fillDataStruct(String fileName) throws IOException {
-		//run(fileName);
-		List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-		instructions = new Day08Instruction[contents.size()];
+	public void fillDataStruct() {
+		instructions = new Day08Instruction[lines.size()];
 		for(int i = 0; i < instructions.length; i++) {
-			instructions[i] = new Day08Instruction(contents.get(i));
+			instructions[i] = new Day08Instruction(lines.get(i));
 		}
 	}
 

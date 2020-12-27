@@ -1,14 +1,8 @@
 package be.dno.advent2015;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.List;
-
-import org.apache.commons.io.IOUtils;
-
 import be.dno.Day;
 
-public class Day24 implements Day{
+public class Day24 extends Day {
    private int[] number;
    private long minQE   = Long.MAX_VALUE;
    private long minPack = Long.MAX_VALUE;
@@ -16,8 +10,7 @@ public class Day24 implements Day{
    private boolean part1check = true;
 
    @Override
-   public void fillDataStruct(String fileName) throws IOException {
-      List<String> lines = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
+   public void fillDataStruct() {
       number = new int[lines.size()];
       for (int i = 0; i < lines.size(); i++){
          number[i] = Integer.parseInt(lines.get(i).trim());

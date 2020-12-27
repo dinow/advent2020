@@ -1,27 +1,13 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.List;
-
-import org.apache.commons.io.IOUtils;
-
 import be.dno.Day;
 
-public class Day18 implements Day{
-   List<String> contents;
-
-   @Override
-	public void fillDataStruct(String fileName) throws IOException {
-		contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-
-	}
-
+public class Day18 extends Day{
 
    @Override
 	public String processPart1() {
       long lineResults = 0l;
-      for (String line : contents){
+      for (String line : lines){
          lineResults+= processLine(new String(line), 1);
       }
       return ""+lineResults;
@@ -30,7 +16,7 @@ public class Day18 implements Day{
    @Override
 	public String processPart2() {
       long lineResults = 0l;
-      for (String line : contents){
+      for (String line : lines){
          lineResults+= processLine(new String(line), 2);
       }
       return ""+lineResults;

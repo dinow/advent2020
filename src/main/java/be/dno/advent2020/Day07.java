@@ -1,45 +1,42 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.io.IOUtils;
 import be.dno.Day;
-public class Day07 implements Day{
+
+public class Day07 extends Day{
 
 	private static final String MY_BAG = "shiny gold";
 	private final Map<String, Day07Relation> mapContains = new HashMap<>();
 	private final Set<String> superBags = new HashSet<>();
 
 	@Override
-	public void fillDataStruct(String fileName) throws IOException {
-		List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
+	public void fillDataStruct() {
+		
 		
 		boolean found = true;
 		superBags.add(MY_BAG);
 
-		for(String line : contents) {
+		for(String line : lines) {
 			Day07Relation rel = getRelation(line);
 			mapContains.put(rel.bagName, rel);
 		}
 
-		String[] lines = contents.toArray(new String[0]);
+		String[] alines = lines.toArray(new String[0]);
 		while(found) {
 			found = false;
-			for(int i = 0; i < lines.length; i++) {
-				String[] parts = lines[i].split("bags contain");
+			for(int i = 0; i < alines.length; i++) {
+				String[] parts = alines[i].split("bags contain");
 				if (parts.length <= 1) continue;
 				String[] currentSuperBags = superBags.toArray(new String[0]);
 				for (String superBag : currentSuperBags) {
 					if (parts[1].contains(superBag)){
 						superBags.add(parts[0].trim());
 						found = true;
-						lines[i] = "";
+						alines[i] = "";
 					}
 				}
 			}

@@ -1,7 +1,5 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,19 +9,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.apache.commons.io.IOUtils;
 import be.dno.Day;
 
-public class Day21 implements Day{
+public class Day21 extends Day{
    //allergen -> Set<Line> -> Set<ingredients>
    private final Map<String, Set<Set<String>>> allergens = new HashMap<>();
    private final Map<String, Integer> allIngredients = new HashMap<>();
    private final Map<String, Set<String>> finalMap = new TreeMap<>();
 
    @Override
-   public void fillDataStruct(String fileName) throws IOException {
-      List<String> contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-      for (String line : contents){
+   public void fillDataStruct() {
+      for (String line : lines){
          String[] content = line.split("contains");
          List<String> ingredients = Arrays.asList(content[0].replace("(","").replace(")","").split(" "));
          for(String allergen : content[1].replace("(","").replace(")","").replaceAll(" ", "").split(",")){

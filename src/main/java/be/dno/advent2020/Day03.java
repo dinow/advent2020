@@ -1,33 +1,25 @@
 package be.dno.advent2020;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 
 import be.dno.Day;
 
-public class Day03 implements Day {
-	List<String> contents;
-	@Override
-	public void fillDataStruct(String fileName) throws IOException {
-		contents = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-	}
+public class Day03 extends Day {
 	@Override
 	public String processPart1() {
 		List<Day03Slope> slopes = new ArrayList<>();
 		slopes.add(new Day03Slope(1, 3));
-		int rows = contents.size();
-		int cols = contents.get(0).length();
+		int rows = lines.size();
+		int cols = lines.get(0).length();
 		long cptTrees = 1;
 		for (int i = 0; i < slopes.size(); i++) {
 			char[][] playground = new char[rows][cols];
 
 			for (int x = 0; x < rows; x++) {
 				for (int y = 0; y < cols; y++) {
-					playground[x][y] = contents.get(x).charAt(y);
+					playground[x][y] = lines.get(x).charAt(y);
 				}
 			}
 
@@ -41,7 +33,7 @@ public class Day03 implements Day {
 						posX = posX - cols;
 					}
 					playground[posY][posX] = 'O';
-					if (contents.get(posY).charAt(posX) == '#') {
+					if (lines.get(posY).charAt(posX) == '#') {
 						slopes.get(i).addTree();
 					}
 				}
@@ -60,15 +52,15 @@ public class Day03 implements Day {
 		slopes.add(new Day03Slope(1, 5));
 		slopes.add(new Day03Slope(1, 7));
 		slopes.add(new Day03Slope(2, 1));
-		int rows = contents.size();
-		int cols = contents.get(0).length();
+		int rows = lines.size();
+		int cols = lines.get(0).length();
 		long cptTrees = 1;
 		for (int i = 0; i < slopes.size(); i++) {
 			char[][] playground = new char[rows][cols];
 
 			for (int x = 0; x < rows; x++) {
 				for (int y = 0; y < cols; y++) {
-					playground[x][y] = contents.get(x).charAt(y);
+					playground[x][y] = lines.get(x).charAt(y);
 				}
 			}
 
@@ -82,7 +74,7 @@ public class Day03 implements Day {
 						posX = posX - cols;
 					}
 					playground[posY][posX] = 'O';
-					if (contents.get(posY).charAt(posX) == '#') {
+					if (lines.get(posY).charAt(posX) == '#') {
 						slopes.get(i).addTree();
 					}
 				}

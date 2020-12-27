@@ -1,21 +1,10 @@
 package be.dno.advent2016;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.List;
-
-import org.apache.commons.io.IOUtils;
 
 import be.dno.Day;
 import be.dno.Utils;
 
-public class Day09 implements Day{
-   private List<String> lines;
-   
-   @Override
-   public void fillDataStruct(String fileName) throws IOException {
-      lines = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
-   }
+public class Day09 extends Day{
 
    @Override
    public String processPart1() {
