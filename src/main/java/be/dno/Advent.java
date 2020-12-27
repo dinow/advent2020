@@ -4,7 +4,7 @@ import be.dno.advent2016.*;
 
 public class Advent {
 	public static void main(String[] args) throws Exception {
-		Day day = new Day12();
+		Day day = new Day13();
 		day.readLines();
 		long startTimeDS = System.nanoTime();
 		day.fillDataStruct();

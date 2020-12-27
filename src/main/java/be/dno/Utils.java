@@ -28,6 +28,11 @@ public class Utils {
             input[i] = c;
         }
     }
+    public static void initArray(boolean[] input, boolean c){
+        for (int i = 0; i < input.length; i++){
+            input[i] = c;
+        }
+    }
 
     public static void printMatrix(Object[][] input){
         for (int i = 0; i < input.length; i++){
@@ -76,4 +81,10 @@ public class Utils {
         }
         return cpt;
     }
+
+	public static void initMatrix(boolean[][] input, boolean b) {
+        for (int i = 0; i < input.length; i++){
+            initArray(input[i], b);
+        }
+	}
 }
