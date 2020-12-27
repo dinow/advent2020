@@ -8,6 +8,10 @@ public class Day08 extends Day{
    private final int HEIGHT = 6;
    private final char[][] screen = new char[HEIGHT][WIDTH];
 
+   public Day08(){
+      fileName = "2016/day08.txt";
+   }
+
    @Override
    public void fillDataStruct() {
       Utils.initMatrix(screen, ' ');

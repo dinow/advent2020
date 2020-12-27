@@ -6,6 +6,10 @@ import be.dno.Utils;
 
 public class Day09 extends Day{
 
+   public Day09(){
+      fileName = "2016/day09.txt";
+   }
+
    @Override
    public String processPart1() {
       long size = 0l;

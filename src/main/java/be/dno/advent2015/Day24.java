@@ -9,6 +9,10 @@ public class Day24 extends Day {
    private int groupWeight;
    private boolean part1check = true;
 
+   public Day24(){
+      fileName = "2015/day24.txt";
+   }
+
    @Override
    public void fillDataStruct() {
       number = new int[lines.size()];

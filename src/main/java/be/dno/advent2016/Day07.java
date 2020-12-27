@@ -9,6 +9,10 @@ import be.dno.Day;
 
 public class Day07 extends Day {
 
+   public Day07(){
+      fileName = "2016/day07.txt";
+   }
+
    @Override
    public String processPart1() {
       Pattern pattern = Pattern.compile("\\[.*?\\]");

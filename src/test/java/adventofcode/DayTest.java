@@ -7,7 +7,7 @@ public class DayTest {
 
 	public static void main(String[] args) throws Exception {
 		Day day = new Day10();
-		day.readLines("2016/day10.txt");
+		day.readLines();
 		long startTimeDS = System.nanoTime();
 		day.fillDataStruct();
 		long endTimeDS = System.nanoTime();

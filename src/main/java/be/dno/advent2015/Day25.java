@@ -9,6 +9,10 @@ public class Day25 extends Day {
    private int targetRow;
    private int targetColumn;
 
+   public Day25(){
+      fileName = "2015/day25.txt";
+   }
+
    @Override
    public void fillDataStruct() {
       String input = lines.get(0);

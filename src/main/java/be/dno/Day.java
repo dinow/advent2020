@@ -8,7 +8,8 @@ import org.apache.commons.io.IOUtils;
 
 public abstract class Day {
    protected List<String> lines;
-   public void readLines(String fileName) throws IOException {
+   protected String fileName;
+   public void readLines() throws IOException {
       lines = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
    };
    public void fillDataStruct(){};
