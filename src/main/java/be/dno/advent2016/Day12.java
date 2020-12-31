@@ -1,10 +1,7 @@
 package be.dno.advent2016;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import be.dno.Day;
 
