@@ -7,9 +7,7 @@ import be.dno.Day;
 
 public class Day15 extends Day{
 
-   String input;
-   int repeatHash;
-   Set<int[]> disks = new HashSet<>();
+   private Set<int[]> disks = new HashSet<>();
 
    public Day15(){
       fileName = null;
