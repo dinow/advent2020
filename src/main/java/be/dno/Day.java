@@ -10,7 +10,9 @@ public abstract class Day {
    protected List<String> lines;
    protected String fileName;
    public void readLines() throws IOException {
-      lines = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
+      if (fileName != null){
+         lines = IOUtils.readLines(ClassLoader.getSystemResourceAsStream(fileName), Charset.forName("UTF-8"));
+      }
    }
    public void fillDataStruct(){}
    public String processPart1(){ return "";}
