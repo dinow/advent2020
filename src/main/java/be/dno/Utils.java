@@ -70,6 +70,15 @@ public class Utils {
         return data;
     }
 
+    public static long[] splitCoupleL(String input, String separator){
+        String[] spl = input.split(separator);
+        long[] data = new long[spl.length];
+        for (int i = 0; i < spl.length; i++){
+            data[i] = Long.valueOf(spl[i].trim());
+        }
+        return data;
+    }
+
     public static long countCharInArray(char[][] input, char item){
         long cpt = 0l;
         for (int i = 0; i < input.length; i++){
