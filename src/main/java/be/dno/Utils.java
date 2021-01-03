@@ -61,6 +61,14 @@ public class Utils {
         System.out.println("");
     } 
 
+    public static char[] copy(char[] in){
+        char[] out = new char[in.length];
+        for (int i = 0; i < out.length; i++){
+            out[i] = in[i];
+        }
+        return out;
+    }
+
     public static int[] splitCouple(String input, String separator){
         String[] spl = input.split(separator);
         int[] data = new int[spl.length];
