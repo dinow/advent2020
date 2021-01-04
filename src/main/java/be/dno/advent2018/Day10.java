@@ -1,12 +1,9 @@
 package be.dno.advent2018;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import be.dno.Day;
 import be.dno.Utils;
