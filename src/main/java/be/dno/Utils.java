@@ -69,6 +69,22 @@ public class Utils {
         return out;
     }
 
+    public static Integer[] copy(Integer[] in){
+        Integer[] out = new Integer[in.length];
+        for (int i = 0; i < out.length; i++){
+            out[i] = in[i];
+        }
+        return out;
+    }
+
+    public static List<Integer[]> copy(List<Integer[]> in){
+        List<Integer[]> out = new ArrayList<>();
+        for(Integer[] i : in){
+            out.add(copy(i));
+        }
+        return out;
+    }
+
     public static int[] splitCouple(String input, String separator){
         String[] spl = input.split(separator);
         int[] data = new int[spl.length];
