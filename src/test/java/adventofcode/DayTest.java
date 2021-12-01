@@ -1,12 +1,12 @@
 package adventofcode;
 
 import be.dno.Day;
-import be.dno.advent2018.*;
+import be.dno.advent2021.*;
 
 public class DayTest {
 
 	public static void main(String[] args) throws Exception {
-		Day day = new Day05();
+		Day day = new Day01();
 		day.readLines();
 		long startTimeDS = System.nanoTime();
 		day.fillDataStruct();
