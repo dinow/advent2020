@@ -28,6 +28,11 @@ public class Utils {
             input[i] = c;
         }
     }
+    public static void initArray(int[] input, int c){
+        for (int i = 0; i < input.length; i++){
+            input[i] = c;
+        }
+    }
     public static void initArray(boolean[] input, boolean c){
         for (int i = 0; i < input.length; i++){
             input[i] = c;
