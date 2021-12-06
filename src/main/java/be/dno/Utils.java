@@ -7,14 +7,18 @@ import java.util.regex.Pattern;
 
 public class Utils {
 
-    public static Integer[] extractNumbers(String input){
+    public static List<Integer> extractNumbersList(String input){
         List<Integer> ints = new ArrayList<>();
         Pattern p = Pattern.compile("\\d+");
         Matcher m = p.matcher(input);
         while(m.find()) {
             ints.add(Integer.valueOf(m.group()));
         }
-        return ints.toArray(new Integer[]{});
+        return ints;
+    }
+
+    public static Integer[] extractNumbers(String input){
+        return extractNumbersList(input).toArray(new Integer[]{});
     }
 
     public static void initMatrix(char[][] input, char c){
