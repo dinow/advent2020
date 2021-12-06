@@ -1,10 +1,6 @@
 package be.dno.advent2021;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import javax.swing.text.Utilities;
 
 import be.dno.Day;
 import be.dno.Utils;
