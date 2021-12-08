@@ -96,18 +96,12 @@ public class Day08 extends Day {
 		if (extendSearch){
 			//3, 6 from 1 (and path to digits)
 			String patternRef = digitToPat.get(Integer.valueOf(1));
+			Map<String, Integer> uglyMappings = new HashMap<>();
+			uglyMappings.put("302", Integer.valueOf(3));
+			uglyMappings.put("511", Integer.valueOf(6));
 			for (String pattern : patterns){
-				Integer mapped = null;
-				if (!processed.contains(pattern)){
-					String uniqueId = ""+ countAdded(patternRef, pattern) + countRemoved(patternRef, pattern) + countIdentical(patternRef, pattern)  + "";
-					if (uniqueId.equals("302")){
-						mapped = Integer.valueOf(3);
-					} else if (uniqueId.equals("511")){
-						mapped = Integer.valueOf(6);
-					}
-				}
+				Integer mapped = getMapping(processed, pattern, patternRef,  uglyMappings);
 				if (mapped != null){
-					//System.out.println(pattern + " -> " + mapped);
 					patToDigit.put(sort(pattern), mapped);
 					digitToPat.put(mapped, pattern);
 					processed.add(pattern);
@@ -116,18 +110,12 @@ public class Day08 extends Day {
 
 			//9, 0 from 3 (and path to digits)
 			patternRef = digitToPat.get(Integer.valueOf(3));
+			uglyMappings = new HashMap<>();
+			uglyMappings.put("214", Integer.valueOf(0));
+			uglyMappings.put("105", Integer.valueOf(9));
 			for (String pattern : patterns){
-				Integer mapped = null;
-				if (!processed.contains(pattern)){
-					String uniqueId = ""+ countAdded(patternRef, pattern) + countRemoved(patternRef, pattern) + countIdentical(patternRef, pattern)  + "";
-					if (uniqueId.equals("214")){
-						mapped = Integer.valueOf(0);
-					} else if (uniqueId.equals("105")){
-						mapped = Integer.valueOf(9);
-					} 
-				}
+				Integer mapped = getMapping(processed, pattern, patternRef,  uglyMappings);
 				if (mapped != null){
-					//System.out.println(pattern + " -> " + mapped);
 					patToDigit.put(sort(pattern), mapped);
 					digitToPat.put(mapped, pattern);
 					processed.add(pattern);
@@ -136,19 +124,12 @@ public class Day08 extends Day {
 
 			//2, 5 from 9 (and path to digits)
 			patternRef = digitToPat.get(Integer.valueOf(9));
+			uglyMappings = new HashMap<>();
+			uglyMappings.put("124", Integer.valueOf(2));
+			uglyMappings.put("015", Integer.valueOf(5));
 			for (String pattern : patterns){
-				Integer mapped = null;
-				if (!processed.contains(pattern)){
-					
-					String uniqueId = ""+ countAdded(patternRef, pattern) + countRemoved(patternRef, pattern) + countIdentical(patternRef, pattern)  + "";
-					if (uniqueId.equals("124")){
-						mapped = Integer.valueOf(2);
-					} else if (uniqueId.equals("015")){
-						mapped = Integer.valueOf(5);
-					} 
-				}
+				Integer mapped = getMapping(processed, pattern, patternRef,  uglyMappings);
 				if (mapped != null){
-					//System.out.println(pattern + " -> " + mapped);
 					patToDigit.put(sort(pattern), mapped);
 					digitToPat.put(mapped, pattern);
 					processed.add(pattern);
@@ -157,6 +138,17 @@ public class Day08 extends Day {
 
 		}
 		return patToDigit;
+	}
+
+	private Integer getMapping(Set<String> processed, String pattern, String patternRef, Map<String, Integer> uglyMappings){
+		Integer mapped = null;
+		if (!processed.contains(pattern)){
+			String uniqueId = ""+ countAdded(patternRef, pattern) + countRemoved(patternRef, pattern) + countIdentical(patternRef, pattern)  + "";
+			if (uglyMappings.containsKey(uniqueId)){
+				mapped = uglyMappings.get(uniqueId);
+			}
+		}
+		return mapped;
 	}
 
 	private int countAdded(String str1, String str2){
