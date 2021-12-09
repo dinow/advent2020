@@ -7,10 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import be.dno.Day;
-import be.dno.Utils;
 
 public class Day08 extends Day {
 	

@@ -1,7 +1,5 @@
 package be.dno.advent2021;
 
-import java.util.List;
-
 import be.dno.Day;
 import be.dno.Utils;
 
