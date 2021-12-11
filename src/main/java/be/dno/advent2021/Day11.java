@@ -1,6 +1,8 @@
 package be.dno.advent2021;
 
 import be.dno.Day;
+import be.dno.MatrixElement;
+import be.dno.Utils;
 
 public class Day11 extends Day {
 
@@ -12,16 +14,7 @@ public class Day11 extends Day {
 
 	@Override
 	public void fillDataStruct() {
-		matrix_1 = new DumboOctopus[lines.size()][lines.get(0).length()];
-		int i =  0;
-		for (String line : lines){
-			int j = 0;
-			for (String c : line.split("|")){
-				matrix_1[i][j] = new DumboOctopus(c);
-				j++;
-			}
-			i++;
-		}
+		matrix_1 = DumboOctopus.fromGeneric(Utils.getIntMatrix(lines));
 	}
 
 	private String bringIt(int partNumber){
@@ -57,7 +50,7 @@ public class Day11 extends Day {
 				int cptEnergy0 = 0;
 				for(int i = 0; i < matrix_1.length; i++){
 					for (int j = 0; j < matrix_1[i].length; j++){
-						if(matrix_1[i][j].getEnergyLevel() == 0){
+						if(matrix_1[i][j].getIntValue() == 0){
 							cptEnergy0++;
 						}
 					}
@@ -69,7 +62,7 @@ public class Day11 extends Day {
 
 			for(int i = 0; i < matrix_1.length; i++){
 				for (int j = 0; j < matrix_1[i].length; j++){
-					matrix_1[i][j].reset();
+					matrix_1[i][j].unFlag();
 				}
 			}
 		}
@@ -102,38 +95,35 @@ public class Day11 extends Day {
 
 }
 
-class DumboOctopus{
-	private int energyLevel;
-	private boolean flashed;
+class DumboOctopus extends MatrixElement{
 
-	public DumboOctopus(String _energy){
-		this.flashed = false;
-		this.energyLevel = Integer.valueOf(_energy);
+	public DumboOctopus(int intValue) {
+		super(intValue);
+	}
+
+	public static DumboOctopus[][] fromGeneric(MatrixElement[][] gen){
+		DumboOctopus[][] newMatrix = new DumboOctopus[gen.length][gen[0].length];
+		for(int i = 0; i < gen.length; i++){
+			for (int j = 0; j < gen[i].length; j++){
+				newMatrix[i][j] = new DumboOctopus(gen[i][j].getIntValue());
+			}
+		}
+		return newMatrix;
 	}
 
 	public void increase(){
-		if (!this.flashed){
-			this.energyLevel++;
+		if (!super.isFlagged()){
+			super.addIntValue(1);
 		}
 	}
 
-	public int getEnergyLevel(){
-		return this.energyLevel;
-	}
-
 	public boolean flash(){
-		if (!this.flashed && this.energyLevel > 9){
-			this.flashed = true;
-			this.energyLevel = 0;
+		if (!super.isFlagged() && super.getIntValue() > 9){
+			super.flag();
+			super.setIntValue(0);
 			return true;
 		}
 		return false;
 	}
-
-	public void reset(){
-		this.flashed = false;
-	}
-
-	public String toString(){ return this.energyLevel+"";}
 
 }
