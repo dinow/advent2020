@@ -55,8 +55,6 @@ public class Day11 extends Day{
                nextStates.add(ns);
             }
          }
-         int i = 0;
-
       }
       return "";
    }

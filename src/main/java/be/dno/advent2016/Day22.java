@@ -9,13 +9,13 @@ import be.dno.Utils;
 public class Day22 extends Day{
 
    private static class Node extends java.awt.Point {
-      final int size;
+      //final int size;
       final int used;
       final int avail;
   
       public Node(int x, int y, int size, int used, int avail) {
          super(x, y);
-         this.size = size;
+         //this.size = size;
          this.used = used;
          this.avail = avail;
       }

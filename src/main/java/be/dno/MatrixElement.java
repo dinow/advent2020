@@ -2,18 +2,18 @@ package be.dno;
 
 public class MatrixElement {
     private int intValue;
-    private char charValue;
-    private String stringValue;
+    //private char charValue;
+    //private String stringValue;
     private boolean flagged;
 
-    public MatrixElement(String _str){
-        this.stringValue = _str;
-        this.flagged = false;
-    }
-    public MatrixElement(char _c){
-        this.charValue = _c;
-        this.flagged = false;
-    }
+    //public MatrixElement(String _str){
+    //    this.stringValue = _str;
+    //    this.flagged = false;
+    //}
+    //public MatrixElement(char _c){
+    //    this.charValue = _c;
+    //    this.flagged = false;
+   // }
     public MatrixElement(int _int){
         this.intValue = _int;
         this.flagged = false;

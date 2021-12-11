@@ -23,7 +23,7 @@ public class Day17 extends Day{
    @Override
    public String processPart1() {
       String step1 = getHash("hijkl").substring(0, 4);
-      return "";
+      return step1;
    }
 
    
