@@ -8,6 +8,8 @@ import be.dno.Day;
 public class Day14 extends Day {
 	String  template;
 	Map<String, String> instructions;
+	Map<String, Long> coupleHits;
+	Map<String, Long> letterHits;
 
 	public Day14(){
 		fileName = "2021/day14.txt";
@@ -22,97 +24,73 @@ public class Day14 extends Day {
 			if (instr.length == 2) instructions.put(instr[0], instr[1]);
 		}
 	}
-
+	
+	public void addInMap(Map<String, Long> map, String key, Long value) {
+		Long cpt = map.get(key);
+		if (cpt == null) cpt = 0l;
+		cpt+=value;
+		map.put(key, cpt);
+	}
+	
 	public Long processPolymer(int stepNums){
-		Map<String, Long> hits = new HashMap<>();
+		
 		Long maxCount = Long.MIN_VALUE;
 		Long minCount = Long.MAX_VALUE;
-
-		LinkedElement startElement = null;
-		LinkedElement previousElement = null;
-		LinkedElement currentElement = null;
-		LinkedElement nextElement = null;
-		for(String letter: template.split("|")){
-			if (startElement == null){
-				startElement = new LinkedElement(letter);
-				previousElement = startElement;
-			} else {
-				LinkedElement middleElement = new LinkedElement(letter);
-				previousElement.next = middleElement;
-				previousElement = middleElement;
-			}
+		letterHits = new HashMap<>();
+		coupleHits = new HashMap<>();
+		//Fill with initial template
+		for (int i = 0; i < template.length()-1; i++) {
+			addInMap(coupleHits, String.valueOf(template.charAt(i)) + String.valueOf(template.charAt(i+1)), 1l);		
 		}
-
+		//Count letters of initial template
+		for(String letter: template.split("|")){
+			addInMap(letterHits, letter, 1l);
+		}
 		
 		for (int step = 0; step < stepNums; step++){
-			System.out.println("Processing step "+ step);
-			currentElement = startElement;
-			nextElement = currentElement.next;
-			while(nextElement != null){
-				String currentCouple = currentElement.value + nextElement.value;
-				String toInsert = instructions.get(currentCouple);
-				previousElement = currentElement;
-				currentElement = nextElement;
-				nextElement = nextElement.next;
-				if (toInsert != null){
-					LinkedElement newElement = new LinkedElement(toInsert);
-					previousElement.next = newElement;
-					newElement.next = currentElement;
+			Map<String, Long> newCouples = new HashMap<>();
+			
+			//Go through all couples of current polymer
+			for (String currentCouple : coupleHits.keySet()) {
+				
+				//Get number of instance of this couple in the polymer
+				Long howManyInstances = coupleHits.get(currentCouple);
+				
+				//Check if there is a mapping for this couple
+				if (instructions.containsKey(currentCouple)) {
+					
+					//Get the letter to Add
+					String letterToAdd = instructions.get(currentCouple);
+					
+					//Build the two new string (e.g. CC->N == CN, NC)
+					String n1 = currentCouple.charAt(0)+letterToAdd;
+					String n2 = letterToAdd+currentCouple.charAt(1);
+					addInMap(newCouples, n1, howManyInstances);
+					addInMap(newCouples, n2, howManyInstances);
+					
+					//From CC to CNC there is one N more, count it
+					addInMap(letterHits, letterToAdd, howManyInstances);
+				} else {
+					
+					//No mapping, save the currents couple in the newCouple map
+					addInMap(newCouples, currentCouple, howManyInstances);
 				}
 			}
+			coupleHits = new HashMap<>(newCouples);
 		}
-
-		nextElement = startElement;
-		while(nextElement != null){
-			Long cpt = hits.get(nextElement.value);
-			if (cpt == null) cpt = Long.valueOf(0);
-			cpt++;
-			hits.put(nextElement.value, cpt);
-			nextElement = nextElement.next;
-		}
-		for(Long cpt : hits.values()){
+		
+		for(Long cpt : letterHits.values()){
 			if (maxCount < cpt) maxCount = cpt;
 			if (minCount > cpt) minCount = cpt;
 		}
 		return (maxCount-minCount);
 	}
-
-	/*public Long processPolymer(int stepNums){
-		Map<String, Long> hits = new HashMap<>();
-		StringBuilder working = new StringBuilder();
-		Long maxCount = Long.MIN_VALUE;
-		Long minCount = Long.MAX_VALUE;
-		for (int step = 0; step < stepNums; step++){
-			System.out.println("Processing step "+ step);
-			working.setLength(0);
-			for(int i = 0; i < template.length()-1; i++){
-				if (i == 0) working.append(template.charAt(i));
-				String currentCouple = template.charAt(i)+""+template.charAt(i+1);
-				String toInsert = instructions.get(currentCouple);
-				if (toInsert == null) toInsert = "";
-				working.append(toInsert).append(template.charAt(i+1));
-			}
-
-			template = working.toString();
-		}
-		for(String letter: template.split("|")){
-			Long cpt = hits.get(letter);
-			if (cpt == null) cpt = Long.valueOf(0);
-			cpt++;
-			
-			hits.put(letter, cpt);
-		}
-		for(Long cpt : hits.values()){
-			if (maxCount < cpt) maxCount = cpt;
-			if (minCount > cpt) minCount = cpt;
-		}
-		return (maxCount-minCount);
-	}*/
 
 	@Override
 	public String processPart1(){ 
 		return processPolymer(10)+"";
 	}
+	
 	@Override
 	public String processPart2(){ 
 		return processPolymer(40)+"";
