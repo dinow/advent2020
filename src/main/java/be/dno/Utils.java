@@ -19,15 +19,15 @@ public class Utils {
 
     public static MatrixElement[][] getIntMatrix(List<String> lines){
         MatrixElement[][] matrix = new MatrixElement[lines.size()][lines.get(0).length()];
-		int i =  0;
-		for (String line : lines){
-			int j = 0;
-			for (String c : line.split("|")){
-				matrix[i][j] = new MatrixElement(Integer.valueOf(c).intValue());
-				j++;
-			}
-			i++;
-		}
+        int i =  0;
+        for (String line : lines){
+            int j = 0;
+            for (String c : line.split("|")){
+                matrix[i][j] = new MatrixElement(Integer.valueOf(c).intValue());
+                j++;
+            }
+            i++;
+        }
         return matrix;
     }
 
@@ -51,6 +51,12 @@ public class Utils {
             input[i] = c;
         }
     }
+    public static void initArray(long[] input, long c){
+        for (int i = 0; i < input.length; i++){
+            input[i] = c;
+        }
+    }
+
     public static void initArray(boolean[] input, boolean c){
         for (int i = 0; i < input.length; i++){
             input[i] = c;
@@ -138,9 +144,30 @@ public class Utils {
         return cpt;
     }
 
-	public static void initMatrix(boolean[][] input, boolean b) {
+    public static void initMatrix(boolean[][] input, boolean b) {
         for (int i = 0; i < input.length; i++){
             initArray(input[i], b);
         }
-	}
+    }
+
+    public static void printMatrix(long[][] matrix) {
+        for (int i = 0; i < matrix.length; i++){
+            printArray(matrix[i]);
+        }
+        System.out.println("");
+        
+    }
+
+    private static void printArray(long[] ls) {
+        for (int i = 0; i < ls.length; i++){
+            System.out.print(ls[i]);
+        }
+        System.out.println("");
+    }
+
+    public static void initMatrix(long[][] matrix, long l) {
+        for (int i = 0; i < matrix.length; i++){
+            initArray(matrix[i], l);
+        }
+    }
 }
