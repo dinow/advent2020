@@ -1,6 +1,9 @@
 package be.dno.advent2021;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import be.dno.Day;
@@ -8,7 +11,14 @@ import be.dno.Day;
 public class Day16 extends Day {
    private Map<String, String> hexToBin = new HashMap<>();
    private Map<String, String> binToHex = new HashMap<>();
-   public static final int LITTERAL_VALUE = 4;
+   public static final int SUM = 0;
+   public static final int PRODUCT = 1;
+   public static final int MINIMUM = 2;
+   public static final int MAXIMUM = 3;
+   public static final int LITERAL_VALUE = 4;
+   public static final int GREATHER_THAN = 5;
+   public static final int LESS_THAN = 6;
+   public static final int EQUALS_TO = 7;
    public Day16(){
       fileName = "2021/day16.txt";
    }
@@ -60,60 +70,81 @@ public class Day16 extends Day {
 
    @Override
    public String processPart1(){ 
-      long sumOfVersionNumbers = 0l;
+      long lastResult = 0l;
       for (String line : lines){
          String binaryLine = convertToBinary(line);
-         sumOfVersionNumbers = computeVersionNumbers(binaryLine, sumOfVersionNumbers, Integer.MAX_VALUE, Integer.MAX_VALUE);
+         ArrayDeque<Character> adc = new ArrayDeque<>(binaryLine.length());
+         for(char c : binaryLine.toCharArray()) {
+            adc.add(Character.valueOf(c));
+         }
+         Packet packet = parseBinary(adc);
+         lastResult = packet.sumVersions();
       }
-      return sumOfVersionNumbers+"";
+      return lastResult+"";
    }
-
-   private long computeVersionNumbers(String binaryLine, long sumOfVersions, int bitLimit, int howManySub) {
-      String packetVersion = binaryLine.substring(0, 3);
-      String typeId        = binaryLine.substring(3, 6);
-      int packetVersionValue = Integer.valueOf(binToHex.get(packetVersion)).intValue();
-      int typeIdValue        = Integer.valueOf(binToHex.get(typeId)).intValue();
-      sumOfVersions += packetVersionValue;
-      System.out.println("I got a packet version ["+packetVersionValue+"] with typeId ["+typeIdValue+"] - current total is " + sumOfVersions);
-      if (typeIdValue != LITTERAL_VALUE){
-         String lengthTypeId = binaryLine.substring(6, 7);
-         if (lengthTypeId.equals("0")){
-            //If the length type ID is 0, then the next 15 bits are a number that 
-            //represents the total length in bits of the sub-packets contained by this packet.
-            String totalLengthOfSubPackets = binaryLine.substring(7, (7+15));
-            int totalLengthOfSubPacketsValue = Integer.valueOf(totalLengthOfSubPackets, 2);
-            sumOfVersions = computeVersionNumbers(binaryLine.substring((7+15)), sumOfVersions, totalLengthOfSubPacketsValue, Integer.MAX_VALUE);
-         } else {
-            //If the length type ID is 1, then the next 11 bits are a number that 
-            //represents the number of sub-packets immediately contained by this packet.
-            String numberOfSubPackets = binaryLine.substring(7, (7+11));
-            int numberOfSubPacketsValue = Integer.valueOf(numberOfSubPackets, 2);
-            sumOfVersions = computeVersionNumbers(binaryLine.substring((7+11)), sumOfVersions, Integer.MAX_VALUE, numberOfSubPacketsValue);
+   
+   @Override
+   public String processPart2(){ 
+     long lastResult = 0l;
+      for (String line : lines){
+         String binaryLine = convertToBinary(line);
+         ArrayDeque<Character> adc = new ArrayDeque<>(binaryLine.length());
+         for(char c : binaryLine.toCharArray()) {
+            adc.add(Character.valueOf(c));
          }
-      } else {
-         int startPos = 0;
-         String remaining = binaryLine.substring(6, binaryLine.length());
-         String flag = remaining.substring(startPos,startPos+1);
-         StringBuilder literalValue = new StringBuilder();
-         literalValue.append(remaining.substring(startPos+1, startPos+5));
-         //read bytes 5 to 5
-         while(flag.equals("1")){
-            startPos+=5;
-            flag = remaining.substring(startPos,startPos+1);
-            literalValue.append(remaining.substring(startPos+1, startPos+5));
+         Packet packet = parseBinary(adc);
+         lastResult = packet.compute();
+      }
+      return lastResult+"";
+   }
+   
+   private int readNBits(ArrayDeque<Character> s, int bitCount) {
+      StringBuilder sb = new StringBuilder();
+      for (int i = 0; i < bitCount; i++) {
+         sb.append(s.removeFirst());
+      }
+      return Integer.valueOf(sb.toString(), 2);
+   }
+   
+   private String readNBitsString(ArrayDeque<Character> s, int bitCount) {
+      StringBuilder sb = new StringBuilder();
+      for (int i = 0; i < bitCount; i++) {
+         sb.append(s.removeFirst());
+      }
+      return sb.toString();
+   }
+   
+   private Packet parseBinary(ArrayDeque<Character> adc) {
+      Packet packet = new Packet();
+      packet.setVersion(readNBits(adc, 3));
+      packet.setTypeId(readNBits(adc, 3));
+         
+      if (packet.getTypeId() == LITERAL_VALUE){
+         StringBuilder sb = new StringBuilder();
+         while(true) {
+            String currentValue = readNBitsString(adc, 5);
+            sb.append(currentValue.substring(1));
+            if (currentValue.charAt(0)=='0') break;
          }
-         Long literalValueLong = Long.valueOf(literalValue.toString(), 2);
-         System.out.println("Literal value was " + literalValueLong);
-      
-         //Check if there is still something to process
-         if (startPos == 0) startPos = 5;
-         String endOfPacket = remaining.substring(startPos);
-
-         if (!endOfPacket.isEmpty() && !endOfPacket.replace("0", "").isEmpty()){
-            sumOfVersions = computeVersionNumbers(endOfPacket, sumOfVersions, Integer.MAX_VALUE, Integer.MAX_VALUE);
+         packet.setLiteralValue(Long.valueOf(sb.toString(), 2).longValue());
+         return packet;
+      }
+         
+      //Not a literalValue
+      packet.setLengthTypeId(readNBits(adc, 1));
+      if (packet.getLengthTypeId() == 1) {
+         packet.setNumberOfSubPacket(readNBits(adc, 11));
+         for (int i = 0; i < packet.getNumberOfSubPacket(); i++) {
+            packet.addSubPacket(parseBinary(adc));
+         }
+      }else {
+         packet.setLengthOfSubPacket(readNBits(adc, 15));
+         int targetBits = adc.size() - packet.getLengthOfSubPacket();
+         while (adc.size() != targetBits) {
+            packet.addSubPacket(parseBinary(adc));
          }
       }
-      return sumOfVersions;
+      return packet;
    }
 
    private String convertToBinary(String line) {
@@ -124,5 +155,133 @@ public class Day16 extends Day {
       return binary.toString();
    }
 
+}
+
+class Packet {
+   int version;
+   int typeId;
+   int lengthTypeId;
+   long literalValue;
+   int lengthOfSubPacket;
+   int numberOfSubPacket;
+   List<Packet> subPackets = new ArrayList<>();
+   
+   public Packet() { 
+      this.literalValue = -1l;
+   }
+   
+   public long sumVersions() {
+      if (this.literalValue > -1l) return this.version;
+      long subSum = this.version;
+      for (Packet p : this.subPackets) {
+         subSum += p.sumVersions();
+      }
+      return subSum;
+   }
+
+   public int getLengthOfSubPacket() {
+      return lengthOfSubPacket;
+   }
+
+   public int getNumberOfSubPacket() {
+      return numberOfSubPacket;
+   }
+
+   public long compute() {
+      if (this.typeId == Day16.SUM) {
+         long sum = 0;
+         for (Packet p : this.subPackets) {
+            sum += p.compute();
+         }
+         return sum;
+      }
+      if (this.typeId == Day16.PRODUCT) {
+         long sum = 1;
+         for (Packet p : this.subPackets) {
+            sum *= p.compute();
+         }
+         return sum;
+      }
+      if (this.typeId == Day16.MINIMUM) {
+         long sum = Long.MAX_VALUE;
+         for (Packet p : this.subPackets) {
+            long l = p.compute();
+            if (sum > l) sum = l;
+         }
+         return sum;
+      }
+      if (this.typeId == Day16.MAXIMUM) {
+         long sum = Long.MIN_VALUE;
+         for (Packet p : this.subPackets) {
+            long l = p.compute();
+            if (sum < l) sum = l;
+         }
+         return sum;
+      }
+      if (this.typeId == Day16.LITERAL_VALUE) {
+         return this.literalValue;
+      }
+      if (this.typeId == Day16.EQUALS_TO) {
+         return (this.subPackets.get(0).compute() == this.subPackets.get(1).compute()) ? 1 : 0;
+      }
+      if (this.typeId == Day16.GREATHER_THAN) {
+         return (this.subPackets.get(0).compute() > this.subPackets.get(1).compute()) ? 1 : 0;
+      }
+      if (this.typeId == Day16.LESS_THAN) {
+         return (this.subPackets.get(0).compute() < this.subPackets.get(1).compute()) ? 1 : 0;
+      }
+      return -1;
+   }
+
+   public void setLengthOfSubPacket(Integer valueOf) {
+      this.lengthOfSubPacket = valueOf;
+      
+   }
+
+   public void setNumberOfSubPacket(Integer valueOf) {
+      this.numberOfSubPacket = valueOf;
+      
+   }
+
+   public int getLengthTypeId() {
+      return this.lengthTypeId;
+   }
+
+   public int getTypeId() {
+      return this.typeId;
+   }
+   
+   
+
+   @Override
+   public String toString() {
+      return "Packet [version=" + version + ", typeId=" + typeId + ", lengthTypeId=" + lengthTypeId
+            + ", literalValue=" + literalValue + ", lengthOfSubPacket=" + lengthOfSubPacket + ", numberOfSubPacket="
+            + numberOfSubPacket + "]";
+   }
+
+   public void setVersion(int _version) {
+      this.version = _version;
+   }
+   
+   public void setTypeId(int _typeId) {
+      this.typeId = _typeId;
+   }
+   
+   public void setLengthTypeId(int _lengthTypeId) {
+      this.lengthTypeId = _lengthTypeId;
+   }
+   
+   public void setLiteralValue(long _literalValue) {
+      this.literalValue = _literalValue;
+   }
+   
+   public void addSubPacket(Packet packet) {
+      this.subPackets.add(packet);
+   }
+   
+   public long getLiteralValue() {
+      return this.literalValue;
+   }
 }
 
