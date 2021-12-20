@@ -1,16 +1,10 @@
 package be.dno.advent2021;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.awt.Point;
+import java.util.HashMap;
+import java.util.Map;
 
 import be.dno.Day;
-import be.dno.Utils;
 
 public class Day20 extends Day {
    private HashMap<Point, Character> inputImage;
@@ -42,41 +36,52 @@ public class Day20 extends Day {
 
    @Override
    public String processPart1(){ 
-      for (int i = 0; i < 2; i++){
-         Map<Point, Character> adddedPoints = new HashMap<>();
-         int minY = getMinY();
-         int maxY = getMaxY();
-         int minX = getMinX();
-         int maxX = getMaxX();
-         for (int y = minY-1; y < maxY + 1; y++){
-            for (int x = minX-1; x < maxX + 1; x++){
-               Point p = new Point(x, y);
-               //get the 9 values surrounding
-               String bitMask =    getBit(i, new Point(x-1, y-1))
-                                 + getBit(i, new Point(x  , y-1))
-                                 + getBit(i, new Point(x+1, y-1))
-                                 + getBit(i, new Point(x-1, y))
-                                 + getBit(i, new Point(x  , y))
-                                 + getBit(i, new Point(x+1, y))
-                                 + getBit(i, new Point(x-1, y+1))
-                                 + getBit(i, new Point(x  , y+1))
-                                 + getBit(i, new Point(x+1, y+1));
-               int indxValue = Integer.valueOf(bitMask, 2);
-               char replacement = inputEnhancementAlgorithm[indxValue];
-               adddedPoints.put(p, Character.valueOf(replacement));
-            }
-         }
-         inputImage.clear();
-         inputImage.putAll(adddedPoints);
-      }
+      return goForIt(2)+"";
+   }
+   
+   @Override
+   public String processPart2(){ 
+      return goForIt(50)+"";
+   }
+   
+   private long goForIt(int steps) {
+	   for (int i = 0; i < steps; i++){
+	         Map<Point, Character> adddedPoints = new HashMap<>();
+	         int minY = getMinY();
+	         int maxY = getMaxY();
+	         int minX = getMinX();
+	         int maxX = getMaxX();
+	         for (int y = minY - 2; y < maxY + 2; y++){
+	            for (int x = minX - 2; x < maxX + 2; x++){
+	               Point p = new Point(x, y);
+	               String bitMask   = getBitMask(i, x, y);
+	               int indxValue    = Integer.valueOf(bitMask, 2);
+	               char replacement = inputEnhancementAlgorithm[indxValue];
+	               adddedPoints.put(p, Character.valueOf(replacement));
+	            }
+	         }
+	         inputImage.clear();
+	         inputImage.putAll(adddedPoints);
+	      }
 
 
-      long nbChars = 0;
-      for (Character c : inputImage.values()){
-         if (c.charValue() == '#') nbChars++;
-      }
-      //not 5026, 10008, 5035, 4764
-      return nbChars+"";
+	      long nbChars = 0;
+	      for (Character c : inputImage.values()){
+	         if (c.charValue() == '#') nbChars++;
+	      }
+	      return nbChars;
+   }
+   
+   private String getBitMask(int step, int x, int y) {
+	   return getBit(step, new Point(x-1, y-1))
+               + getBit(step, new Point(x  , y-1))
+               + getBit(step, new Point(x+1, y-1))
+               + getBit(step, new Point(x-1, y))
+               + getBit(step, new Point(x  , y))
+               + getBit(step, new Point(x+1, y))
+               + getBit(step, new Point(x-1, y+1))
+               + getBit(step, new Point(x  , y+1))
+               + getBit(step, new Point(x+1, y+1));
    }
 
    private int getMinY() {
