@@ -1,5 +1,6 @@
 package be.dno;
 
+
 import be.dno.advent2022.*;
 
 public class Advent {
@@ -19,6 +20,5 @@ public class Advent {
       String part2 = day.processPart2();
       long endTimePart2 = System.nanoTime();
       System.out.println("Part 2 : " + part2 + " -- " + ((endTimePart2 - startTimePart2)/100000) + "ms");
-      //Not 16708
    }
 }
