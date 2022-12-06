@@ -6,7 +6,7 @@ import be.dno.advent2022.*;
 public class DayTest {
 
     public static void main(String[] args) throws Exception {
-        Day day = new Day06();
+        Day day = new Day07();
         day.readLines();
         long startTimeDS = System.nanoTime();
         day.fillDataStruct();
