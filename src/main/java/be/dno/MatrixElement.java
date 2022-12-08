@@ -44,6 +44,6 @@ public class MatrixElement {
         this.intValue = i;
     }
     public String toString(){
-        return this.intValue + " - " + this.flagged;
+        return this.intValue + (this.flagged ? "# " : "  ");
     }
 }
