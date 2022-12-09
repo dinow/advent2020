@@ -17,59 +17,85 @@ public class Day09 extends Day {
       visitedByTail = new HashSet<>();
    }
 
+   private void movePoint(Point[] rope, int k, int newX, int newY){
+      rope[k].setLocation(newX, newY);
+   }
 
-   @Override
-   public String processPart1() {
-      Point head = new Point(0,0);
-      Point tail = new Point(0,0);
+   private int processLines(Point[] rope){
       for (String line : lines){
          String[] commands = line.split(" ");
          int steps = Integer.valueOf(commands[1]);
          for (int i = 0; i < steps; i++){
+            //Move last item of array (== head)
             if (commands[0].equals("R")){
-               head.setLocation(head.getX()+1, head.getY());
+               rope[rope.length-1].setLocation(rope[rope.length-1].getX()+1, rope[rope.length-1].getY()  );
             }else if (commands[0].equals("U")){
-               head.setLocation(head.getX(), head.getY()-1);
+               rope[rope.length-1].setLocation(rope[rope.length-1].getX()  , rope[rope.length-1].getY()-1);
             }else if (commands[0].equals("L")){
-               head.setLocation(head.getX()-1, head.getY());
+               rope[rope.length-1].setLocation(rope[rope.length-1].getX()-1, rope[rope.length-1].getY()  );
             }else if (commands[0].equals("D")){
-               head.setLocation(head.getX(), head.getY()+1);
+               rope[rope.length-1].setLocation(rope[rope.length-1].getX()  , rope[rope.length-1].getY()+1);
             }
-            //System.out.println("H moved to " + head);
-            //Compute distance between head and tail, and make follow
-            int dY = Double.valueOf(Math.max(head.getY(), tail.getY()) - Math.min(head.getY(), tail.getY())).intValue();
-            int dX = Double.valueOf(Math.max(head.getX(), tail.getX()) - Math.min(head.getX(), tail.getX())).intValue();
-            if (dY > 1 || dX > 1){
-               //Move tail
-               if (dX == 0){ //Move Y
-                  int yStep = Double.valueOf(head.getY() - tail.getY()).intValue();
+
+            //Move all other knots
+            for (int k = rope.length-2; k >= 0; k--){
+               //Compute distance to next knot
+               int dY = Double.valueOf(Math.max(rope[k+1].getY(), rope[k].getY()) - Math.min(rope[k+1].getY(), rope[k].getY())).intValue();
+               int dX = Double.valueOf(Math.max(rope[k+1].getX(), rope[k].getX()) - Math.min(rope[k+1].getX(), rope[k].getX())).intValue();
+               if (dY > 1 || dX > 1){
+                  //Move tail as we are too far behind
+                  int yStep = Double.valueOf(rope[k+1].getY() - rope[k].getY()).intValue();
+                  int xStep = Double.valueOf(rope[k+1].getX() - rope[k].getX()).intValue();
+
+                  //Make sure we only move one step
                   if (yStep < -1) yStep = -1;
                   if (yStep >  1) yStep = 1;
-                  tail.setLocation(tail.getX(), tail.getY() + yStep);
-               }else if (dY == 0){ //Move X
-                  int xStep = Double.valueOf(head.getX() - tail.getX()).intValue();
+
                   if (xStep < -1) xStep = -1;
                   if (xStep >  1) xStep = 1;
-                  tail.setLocation(tail.getX()+xStep,tail.getY());
-               } else {
-                  //Move diagonally
-                  if (dX == 1 && dY == 2){
-                     int yStep = Double.valueOf(head.getY() - tail.getY()).intValue();
-                     if (yStep < -1) yStep = -1;
-                     if (yStep >  1) yStep = 1;
-                     tail.setLocation(head.getX(),tail.getY()+yStep);
-                  } else if (dX == 2 && dY == 1){
-                     int xStep = Double.valueOf(head.getX() - tail.getX()).intValue();
-                     if (xStep < -1) xStep = -1;
-                     if (xStep >  1) xStep = 1;
-                     tail.setLocation(tail.getX()+xStep,head.getY());
+
+                  //Store new position for current knot (default == current values)
+                  int newX = Double.valueOf(rope[k].getX()).intValue();
+                  int newY = Double.valueOf(rope[k].getY()).intValue();;
+
+                  if (dX == 0){ //Move Y as we stayed on the same column
+                     newY = Double.valueOf(rope[k].getY() + yStep).intValue();
+                  }else if (dY == 0){ //Move X as we stayed on same row
+                     newX = Double.valueOf(rope[k].getX()+xStep).intValue();
+                  } else if ((dX == 1 && dY == 2) || (dX == 2 && dY == 1) || (dX == 2 && dY == 2)){
+                     //Move diagonally as both values are positives
+                     if (dX == 1 && dY == 2){
+                        newX = Double.valueOf(rope[k+1].getX()).intValue();
+                        newY = Double.valueOf(rope[k].getY()+yStep).intValue();
+                     } else if (dX == 2 && dY == 1){
+                        newX = Double.valueOf(rope[k].getX()+xStep).intValue();
+                        newY = Double.valueOf(rope[k+1].getY()).intValue();
+                     } else if (dX == 2 && dY == 2){
+                        newX = Double.valueOf(rope[k].getX()+xStep).intValue();
+                        newY = Double.valueOf(rope[k].getY()+yStep).intValue();
+                     }
+                  }else{
+                     System.out.println("ERROR: dX = " + dX + ", dY = " + dY);
                   }
+                  //Actually move the current k point
+                  movePoint(rope, k, Double.valueOf(newX).intValue(),Double.valueOf(newY).intValue());
                }
             }
-            visitedByTail.add(new Point(Double.valueOf(tail.getX()).intValue(), Double.valueOf(tail.getY()).intValue()));
+            //Store tail position, always (it's a set, it's not efficient but why not...)
+            visitedByTail.add(new Point(Double.valueOf(rope[0].getX()).intValue(), Double.valueOf(rope[0].getY()).intValue()));
          }
       }
-      return String.valueOf(visitedByTail.size());
+      return visitedByTail.size();
+   }
+
+
+   @Override
+   public String processPart1() {
+      Point[] rope = new Point[2];
+      for (int i = 0; i < rope.length; i++){
+         rope[i] = new Point(0,0);
+      }
+      return String.valueOf(processLines(rope));
    }
 
    @Override
@@ -78,57 +104,7 @@ public class Day09 extends Day {
       for (int i = 0; i < rope.length; i++){
          rope[i] = new Point(0,0);
       }
-      /*for (String line : lines){
-         String[] commands = line.split(" ");
-         int steps = Integer.valueOf(commands[1]);
-         for (int i = 0; i < steps; i++){
-            if (commands[0].equals("R")){
-               head.setLocation(head.getX()+1, head.getY());
-            }else if (commands[0].equals("U")){
-               head.setLocation(head.getX(), head.getY()-1);
-            }else if (commands[0].equals("L")){
-               head.setLocation(head.getX()-1, head.getY());
-            }else if (commands[0].equals("D")){
-               head.setLocation(head.getX(), head.getY()+1);
-            }
-            //System.out.println("H moved to " + head);
-            //Compute distance between head and tail, and make follow
-            int dY = Double.valueOf(Math.max(head.getY(), tail.getY()) - Math.min(head.getY(), tail.getY())).intValue();
-            int dX = Double.valueOf(Math.max(head.getX(), tail.getX()) - Math.min(head.getX(), tail.getX())).intValue();
-            if (dY > 1 || dX > 1){
-               //Move tail
-               if (dX == 0){ //Move Y
-                  int yStep = Double.valueOf(head.getY() - tail.getY()).intValue();
-                  if (yStep < -1) yStep = -1;
-                  if (yStep >  1) yStep = 1;
-                  tail.setLocation(tail.getX(), tail.getY() + yStep);
-               }else if (dY == 0){ //Move X
-                  int xStep = Double.valueOf(head.getX() - tail.getX()).intValue();
-                  if (xStep < -1) xStep = -1;
-                  if (xStep >  1) xStep = 1;
-                  tail.setLocation(tail.getX()+xStep,tail.getY());
-               } else {
-                  //Move diagonally
-                  if (dX == 1 && dY == 2){
-                     int yStep = Double.valueOf(head.getY() - tail.getY()).intValue();
-                     if (yStep < -1) yStep = -1;
-                     if (yStep >  1) yStep = 1;
-                     tail.setLocation(head.getX(),tail.getY()+yStep);
-                  } else if (dX == 2 && dY == 1){
-                     int xStep = Double.valueOf(head.getX() - tail.getX()).intValue();
-                     if (xStep < -1) xStep = -1;
-                     if (xStep >  1) xStep = 1;
-                     tail.setLocation(tail.getX()+xStep,head.getY());
-                  }
-
-
-               }
-              // System.out.println("T moved to " + tail);
-            }
-            visitedByTail.add(new Point(Double.valueOf(tail.getX()).intValue(), Double.valueOf(tail.getY()).intValue()));
-         }
-      }*/
-      return String.valueOf(visitedByTail.size());
+      return String.valueOf(processLines(rope));
    }
 }
 
