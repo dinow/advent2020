@@ -4,3 +4,5 @@
 .project
 *.iml
 .vscode
+src/main/resources/
+src/test/resources/
