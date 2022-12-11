@@ -15,6 +15,6 @@ public abstract class Day {
       }
    }
    public void fillDataStruct(){}
-   public String processPart1(){ return "";}
-   public String processPart2(){ return "";}
+   public String processPart1() throws Exception{ return "";}
+   public String processPart2() throws Exception{ return "";}
 }
