@@ -14,7 +14,6 @@ public class Day11 extends Day {
 
    public class Monkey {
       private ArrayDeque<Long> items;
-      private String name;
       private String operation;
       private String operationValue;
       private int test;
@@ -24,8 +23,7 @@ public class Day11 extends Day {
    
       
    
-      public Monkey(String name, String operation, String operationValue, int test, String monkeyTestTrue, String monkeyTestFalse, String fullItems) {
-         this.name = name;
+      public Monkey(String operation, String operationValue, int test, String monkeyTestTrue, String monkeyTestFalse, String fullItems) {
          this.operation = operation;
          this.operationValue = operationValue;
          this.test = test;
@@ -37,8 +35,6 @@ public class Day11 extends Day {
             this.items.add(Long.valueOf(item));
          }
       }
-
-
 
       public void play(boolean divide) {
          while (!this.items.isEmpty()){
@@ -70,21 +66,8 @@ public class Day11 extends Day {
          }
       }
 
-
-
       private void receive(Long item) {
          this.items.add(item % wtfSuperModulo);
-      }
-
-
-
-      public String toFullString() {
-         StringBuilder it = new StringBuilder();
-         it.append("Monkey ").append(this.name).append(" : ");
-         for (Integer item : items.toArray(new Integer[0])){
-            it.append(String.valueOf(item)).append(", ");
-         }
-         return it.toString();
       }
 
    }
@@ -100,20 +83,20 @@ public class Day11 extends Day {
    public void fillDataStruct() {
       monkeys = new HashMap<>();
       if (lines.get(0).equals("test")){
-         monkeys.put("0", new Monkey("0", "*", "19" , 23, "2", "3", "79,98"));
-         monkeys.put("1", new Monkey("1", "+", "6"  , 19, "2", "0", "54,65,75,74"));
-         monkeys.put("2", new Monkey("2", "*", "old", 13, "1", "3","79,60,97"));
-         monkeys.put("3", new Monkey("3", "+", "3"  , 17, "0", "1","74"));
+         monkeys.put("0", new Monkey("*", "19" , 23, "2", "3", "79,98"));
+         monkeys.put("1", new Monkey("+", "6"  , 19, "2", "0", "54,65,75,74"));
+         monkeys.put("2", new Monkey("*", "old", 13, "1", "3","79,60,97"));
+         monkeys.put("3", new Monkey("+", "3"  , 17, "0", "1","74"));
          wtfSuperModulo = 23l*19l*13l*17l;
       } else {
-         monkeys.put("0", new Monkey("0", "*", "7"  , 19, "6", "7", "85,77,77"));
-         monkeys.put("1", new Monkey("1", "*", "11" , 3 , "3", "5", "80,99"));
-         monkeys.put("2", new Monkey("2", "+", "8"  , 13, "0", "6","74,60,74,63,86,92,80"));
-         monkeys.put("3", new Monkey("3", "+", "7"  , 7 , "2", "4","71,58,93,65,80,68,54,71"));
-         monkeys.put("4", new Monkey("4", "+", "5"  , 5 , "2", "0","97,56,79,65,58"));
-         monkeys.put("5", new Monkey("5", "+", "4"  , 11, "4", "3","77"));
-         monkeys.put("6", new Monkey("6", "*", "old", 17, "7", "1","99,90,84,50"));
-         monkeys.put("7", new Monkey("7", "+", "3"  , 2 , "5", "1","50,66,61,92,64,78"));
+         monkeys.put("0", new Monkey("*", "7"  , 19, "6", "7", "85,77,77"));
+         monkeys.put("1", new Monkey("*", "11" , 3 , "3", "5", "80,99"));
+         monkeys.put("2", new Monkey("+", "8"  , 13, "0", "6","74,60,74,63,86,92,80"));
+         monkeys.put("3", new Monkey("+", "7"  , 7 , "2", "4","71,58,93,65,80,68,54,71"));
+         monkeys.put("4", new Monkey("+", "5"  , 5 , "2", "0","97,56,79,65,58"));
+         monkeys.put("5", new Monkey("+", "4"  , 11, "4", "3","77"));
+         monkeys.put("6", new Monkey("*", "old", 17, "7", "1","99,90,84,50"));
+         monkeys.put("7", new Monkey("+", "3"  , 2 , "5", "1","50,66,61,92,64,78"));
          wtfSuperModulo = 19l*3l*13l*7l*7l*5l*11l*17l*2l;
       }
       
