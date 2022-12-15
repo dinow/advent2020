@@ -19,6 +19,11 @@ public class Point {
       this.x = x;
       this.y = y;
    }
+
+   public int getManhattanDistance(Point that) {
+      return Math.abs(Math.abs(this.getX()-that.getX()) + Math.abs(this.getY()-that.getY()));
+   }
+
    @Override
    public int hashCode() {
       return (""+x+","+y).hashCode();
