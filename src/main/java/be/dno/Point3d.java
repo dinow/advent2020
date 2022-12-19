@@ -4,6 +4,7 @@ public class Point3d {
    private int x;
    private int y;
    private int z;
+   private int distance;
    public int getX() {
       return x;
    }
@@ -21,6 +22,12 @@ public class Point3d {
       this.x = x;
       this.y = y;
       this.z = z;
+   }
+   public Point3d(int x, int y, int z, int distance) {
+      this.x = x;
+      this.y = y;
+      this.z = z;
+      this.distance = distance;
    }
  
    @Override
@@ -58,6 +65,12 @@ public class Point3d {
    }
    public void setZ(int z) {
       this.z = z;
+   }
+   public int getDistance() {
+      return distance;
+   }
+   public void setDistance(int distance) {
+      this.distance = distance;
    }
 
    
