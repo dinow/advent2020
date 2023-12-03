@@ -30,6 +30,19 @@ public class Utils {
         }
         return matrix;
     }
+    public static MatrixElementChar[][] getCharMatrix(List<String> lines){
+      MatrixElementChar[][] matrix = new MatrixElementChar[lines.size()][lines.get(0).length()];
+        int i =  0;
+        for (String line : lines){
+            int j = 0;
+            for (String c : line.split("|")){
+                matrix[i][j] = new MatrixElementChar(c);
+                j++;
+            }
+            i++;
+        }
+        return matrix;
+    }
 
     public static Integer[] extractNumbers(String input){
         return extractNumbersList(input).toArray(new Integer[]{});
